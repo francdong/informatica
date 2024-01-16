@@ -12,10 +12,10 @@
 <button id="scritta" onclick="inizia()">CLICCAMI</button>
 </div>
 <script>
-  let ndato=document.getElementById("input").value;
-  let n=ndato;
+  let ndato = document.getElementById("input").value;
+
  function inizia(){
-   document.getElementById("scritta").innerHTML=n+"grazie per aver cliccato il bottone  :) (titolo di simulazione di un scherzo)"+"<br>";
+   document.getElementById("scritta").innerHTML=ndato+"grazie per aver cliccato il bottone  :) (titolo di simulazione di un scherzo)"+"<br>";
    for (let i=0;i>n;i++){
      document.getElementById("scritta").innerHTML+=i+"<br>";
    }
