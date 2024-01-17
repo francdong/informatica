@@ -1,7 +1,7 @@
 <html>
   <body>
     <button onclick="startCounter()">Start Counter</button>
-    <p id="result"></p>
+    <p id="p"></p>
   </body>
   <script>
     let cont = 0;
@@ -18,15 +18,17 @@
     }
 
     function tabella() {
-      let result = document.getElementById('result');
-      var table = '';
+      let somma = '';
+      let finale = '';
+
+      
       for (let i = 1; i <= 10; i++) {
         for (let j = 1; j <= 10; j++) {
-          table += j * i + "<br>";
+          finale += j * i + "";
         }
-        
+        finale += "<br>"+"<br>"+i+"°"
       }
-      result.innerHTML = table;
+      document.getElementById("p").innerHTML = finale;
     }
   </script>
 </html>
