@@ -13,7 +13,7 @@
       function inizia() {
         let cont = document.getElementById("cont");
             while (container.firstChild) {
-                container.removeChild(container.firstChild);
+                cont.removeChild(cont.firstChild);
             }
           
             for (let i = 0; i < 10; i++){
@@ -22,7 +22,7 @@
               div.style.height = "10px";
               div.style.border = "1px solid black";
               div.style.backgroundColor = getRandomColor();
-              container.appendChild(div);
+              cont.appendChild(div);
             }
       }
        function getRandomColor() {
