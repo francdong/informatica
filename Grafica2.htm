@@ -3,6 +3,7 @@
 <head>
 <title>2-GRaffic</title>
 <style>
+   
     #container1 div {
         margin: 10px;
     }
@@ -22,13 +23,18 @@
     <script>
         function createDivs() {
         
-            const numDivs = document.getElementById("numDiv").value;
+            const numDiv1 = document.getElementById("numDiv").value;
             const container = document.getElementById("container");
             while (container.firstChild) {
                 container.removeChild(container.firstChild);
             }
-          
-            for (let i = 0; i < numDivs; i++) {
+
+            if(document.getElementById("NumDiv").value=="una_scachiera"){
+             let img1 = document.createElement("c");
+        img1.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpQbH0AIpXAAK6Ijf78PxgYaWio_GY3jByFA&usqp=CAU://www.google.com/imgres?imgurl=https%3A%2F%2Fgiochi.restaldi.com%2Fphoto%3FcW%3D438%26cH%3D438%26W%3D438%26H%3D438%26ID_IMG%3D1606&tbnid=K7igZi500Qt1oM&vet=1&imgrefurl=https%3A%2F%2Fgiochi.restaldi.com%2Fit%2Fprodotto%2Fgcv130%2Ftavola-scacchiera-cm-36-bordo&docid=u7ZTkROec02J9M&w=438&h=438&hl=en-GB&source=sh%2Fx%2Fim%2Fm6%2F4";
+        cont2.appendChild(img1);
+            }
+            for (let i = 0; i < numDiv1; i++) {
                 const div = document.createElement("div");
                 div.style.width = "10px";
                 div.style.height = "10px";
