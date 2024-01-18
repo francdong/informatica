@@ -10,7 +10,7 @@
     
 </head>
 <body>
-    <input type="number" id="numDivs">
+    <input type="number" id="numDiv">
     <button  onclick="createDivs()">Create Divs</button>
   <h1 style="color:red">"istruzione"</h1>
     <h2 style="color:black">-Es.1,scrivi 10 nella casella.<br>
@@ -22,7 +22,7 @@
     <script>
         function createDivs() {
         
-            const numDivs = document.getElementById("numDivs").value;
+            const numDivs = document.getElementById("numDiv").value;
             const container = document.getElementById("container");
             while (container.firstChild) {
                 container.removeChild(container.firstChild);
