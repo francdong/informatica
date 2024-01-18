@@ -13,8 +13,10 @@
       function inizia() {
         document.getElementById("out").innerHTML = "Cliccato!";
         let div = document.createElement("q_uno");
+        let cont = document.getElementById("cont");
           div.style.backgroundColor = getRandomColor();
-         q_uno.removeChild(q_uno.firstChild);
+         cont.removeChild(cont.firstChild);
+        const div = document.createElement("div");
       }
        function getRandomColor() {
             const letters = "0123456789ABCDEF";
