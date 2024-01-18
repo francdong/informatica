@@ -1,7 +1,7 @@
 <html>
   <body>
     <style>
-    #cont q_uno"{
+    #cont{
       
     }
 </style>
@@ -11,20 +11,19 @@
 
     <script>
       function inizia() {
-        let div = document.createElement("q_uno");
         let cont = document.getElementById("cont");
-        
-        document.getElementById("out").innerHTML = "Cliccato!";
-          div.style.backgroundColor = getRandomColor();
-         while (cont.firstChild) {
-                cont.removeChild(cont.firstChild);
+            while (container.firstChild) {
+                container.removeChild(container.firstChild);
             }
-        const div = document.createElement("div");
-                div.style.width = "100px";
-                div.style.height = "100px";
-                div.style.border = "1px solid black";
-                div.style.backgroundColor = getRandomColor();
-                container.appendChild(div);
+          
+            for (let i = 0; i < 10; i++){
+              let div = document.createElement("div");
+              div.style.width = "10px";
+              div.style.height = "10px";
+              div.style.border = "1px solid black";
+              div.style.backgroundColor = getRandomColor();
+              container.appendChild(div);
+            }
       }
        function getRandomColor() {
             const letters = "0123456789ABCDEF";
