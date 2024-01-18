@@ -1,7 +1,7 @@
 <html>
   <body>
     <style>
-    #q_uno"{
+    #cont q_uno"{
         margin: 10px;
     }
 </style>
@@ -14,7 +14,7 @@
         document.getElementById("out").innerHTML = "Cliccato!";
         let div = document.createElement("q_uno");
           div.style.backgroundColor = getRandomColor();
-        
+         q_uno.removeChild(q_uno.firstChild);
       }
        function getRandomColor() {
             const letters = "0123456789ABCDEF";
