@@ -1,1 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Create Image on Button Click</title>
+    <style>
+      /* Add CSS styles here */
+      #my-image {
+        width: 200px;
+        height: 200px;
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="my-button">Click me to create an image</button>
+    <div id="my-image"></div>
 
+    <script>
+      // Add JavaScript code here
+      const button = document.getElementById("my-button");
+      const imageContainer = document.getElementById("my-image");
+
+      button.addEventListener("click", () => {
+        const image = document.createElement("img");
+        image.src = "https://www.example.com/image.jpg";
+        imageContainer.appendChild(image);
+      });
+    </script>
+  </body>
+</html>
