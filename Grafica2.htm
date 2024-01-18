@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Border-E-Outline</title>
+<style>
+    #container div {
+        margin: 10px;
+    }
+</style>
+</head>
+<body>
+    <input type="number" id="numDivs">
+    <button  onclick="createDivs()">Create Divs</button>
+  
+    <div id="container"></div><br><br>
+  <p id="c"></p>
+    <script>
+        function createDivs() {
+        
+            const numDivs = document.getElementById("numDivs").value;
+            const container = document.getElementById("container");
+            while (container.firstChild) {
+                container.removeChild(container.firstChild);
+            }
+          
+            for (let i = 0; i < numDivs; i++) {
+                const div = document.createElement("div");
+                div.style.width = "100px";
+                div.style.height = "100px";
+                div.style.border = "1px solid black";
+                div.style.backgroundColor = getRandomColor();
+                container.appendChild(div);
+              
+            }
+        
+        }
+        function getRandomColor() {
+            const letters = "0123456789ABCDEF";
+            let color = "#";
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+    </script>
+</body>
+</html>
