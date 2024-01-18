@@ -7,6 +7,9 @@
     <script>
       function inizia() {
         document.getElementById("q_uno").innerHTML = "Cliccato!";
+        let div = document.createElement("div");
+          div.style.backgroundColor = getRandomColor();
+        
       }
        function getRandomColor() {
             const letters = "0123456789ABCDEF";
