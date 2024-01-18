@@ -10,11 +10,12 @@
     function inizia() {
       interval = setInterval(function() {
         cont++;
+        document.getElementById("p").innerHTML = cont;
         if (cont === 5) {
           clearInterval(interval);
           tabella();
         }
-         document.getElementById("p").innerHTML = cont;
+     
       }, 1000);
     }
 
