@@ -7,12 +7,12 @@
 </style>
     <button onclick="inizia()">CLICCAMI!</button>
     <div style="height: 10px; width: 10px; background-color: getRandomColor(); border: 1px solid black;" id="q_uno"></div>
-    <p id="p"></p>
+    <p id="out"></p>
 
     <script>
       function inizia() {
-        document.getElementById("q_uno").innerHTML = "Cliccato!";
-        let div = document.createElement("div");
+        document.getElementById("out").innerHTML = "Cliccato!";
+        let div = document.createElement("q_uno");
           div.style.backgroundColor = getRandomColor();
         
       }
