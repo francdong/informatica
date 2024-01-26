@@ -70,15 +70,10 @@
                     square.className = "square";
 
                   
-                  if (ncas == 0 || ncas == 3){
+                  while (ncas == 0 || ncas == 3){
                   ncas = Math.floor(Math.random()*3);
                   document.getElementById("ciao").innerHTML += ncas;
                   }
-                  if (ncas == 0 || ncas == 3){
-                  ncas = Math.floor(Math.random()*3);
-                  document.getElementById("ciao").innerHTML += ncas;
-                  }
-                  
                     if ((i + j) % 2 === 0) {
                         square.style.backgroundColor = "white";
                       square.classList.add("white");
