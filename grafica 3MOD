@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scacchiera</title>
     <style>
-      #input2{
-        
-      }
         .board-row {
             position: relative;
             display: flex;
@@ -24,14 +21,17 @@
             position: relative; /* Aggiungi questa riga */
         }
 
-        .allimg-container {
+        .fiore-container {
             position: absolute;
             top: -9px;
             left: -1px;
             width: 10px;
             height: 10px;
         }
-
+      .square.white {
+          background-color: white;
+          z-index: 1;
+      }
         .square.black {
             background-color: black;
             z-index: 1;
@@ -40,20 +40,21 @@
         .square.black .fiore-container {
             z-index: 2; /* Aggiungi questa riga */
         }
+      .square.white.fiore-container {
+          z-index: 2; /* Aggiungi questa riga */
+      }
     </style>
   <p id="ciao"></p>
-  <input type="number" id="numeroDiv" />
 </head>
 <body>
     <script>
       var ncas = Math.floor(Math.random()*3);
-      document.getElementById("ciao").innerHTML = ncas;
-      var contnum ;
+      document.getElementById("ciao").innerHTML += ncas;
+      var contnum = 0;
 
       
         function creaScacchiera(numeroDiv) {
           contnum = document.getElementById("numeroDiv").value;
-          contnum = contnum * 2 ;
 
             var container = document.body;
           
@@ -68,41 +69,66 @@
                     var square = document.createElement("div");
                     square.className = "square";
 
+                  
+                  if (ncas == 0 || ncas == 3){
+                  ncas = Math.floor(Math.random()*3);
+                  document.getElementById("ciao").innerHTML += ncas;
+                  }
+                  if (ncas == 0 || ncas == 3){
+                  ncas = Math.floor(Math.random()*3);
+                  document.getElementById("ciao").innerHTML += ncas;
+                  }
+                  
                     if ((i + j) % 2 === 0) {
                         square.style.backgroundColor = "white";
+                      square.classList.add("white");
+
+                      const imageContainer = document.createElement("div");
+                      imageContainer.className = "fiore-container";
+                      
+
+                      if (ncas==2){
+                        const fioreImg = document.createElement("img");
+                        fioreImg.src = "fiore.png";
+                        fioreImg.style.width = "100%";
+                        fioreImg.style.height = "100%";
+                        imageContainer.appendChild(fioreImg);
+                      }
+                      if (ncas==1){
+                      const romanImg = document.createElement("img");
+                      romanImg.src = "roman.png";
+                      romanImg.style.width = "100%";
+                      romanImg.style.height = "100%";
+                      imageContainer.appendChild(romanImg);
+                      }
+                      ncas = Math.floor(Math.random()*3);
+                      document.getElementById("ciao").innerHTML += ncas;
+                        square.appendChild(imageContainer);
                     } else {
                         square.style.backgroundColor = "black";
                         square.classList.add("black");
 
                         const imageContainer = document.createElement("div");
-                        imageContainer.className = "allimg-container";
+                        imageContainer.className = "fiore-container";
 
-                       while (contnum > 1){
-                         contnum--;
-                         if (ncas==3 || ncas==0){
-                            var chose1=document.createElement("button");
-                            var chose2=document.createElement("button");
-                           imageContainer.appendChild(chose1 & chose2);
-                          }
-                         if (ncas==2){
-                           const fioreImg = document.createElement("img");
-                           fioreImg.src = "fiore.png";
-                           fioreImg.style.width = "100%";
-                           fioreImg.style.height = "100%";
-                           imageContainer.appendChild(fioreImg);
-                         }
-                         if (ncas==1){
-                            const romanImg = document.createElement("img");
-                            romanImg.src = "roman.png";
-                           romanImg.style.width = "100%";
-                           romanImg.style.height = "100%";
-                            imageContainer.appendChild(romanImg);
-                          }
-                       } 
-                      ncas = Math.floor(Math.random()*3);
-                      document.getElementById("ciao").innerHTML = ncas;
                         
-
+                      if (ncas==2){
+                        const fioreImg = document.createElement("img");
+                        fioreImg.src = "fiore.png";
+                        fioreImg.style.width = "100%";
+                        fioreImg.style.height = "100%";
+                        imageContainer.appendChild(fioreImg);
+                      }
+                      if (ncas==1){
+                      const romanImg = document.createElement("img");
+                      romanImg.src = "roman.png";
+                      romanImg.style.width = "100%";
+                      romanImg.style.height = "100%";
+                      imageContainer.appendChild(romanImg);
+                      }
+                       
+                      ncas = Math.floor(Math.random()*3);
+                       document.getElementById("ciao").innerHTML += ncas;
                         square.appendChild(imageContainer);
                     }
 
@@ -114,6 +140,7 @@
 
             container.appendChild(board);
           
+          
         }
       
       
@@ -123,7 +150,7 @@
   
 
     <label for="numeroDiv">Inserisci il numero di div per riga:</label>
-    
+    <input type="number" id="numeroDiv" />
     <button onclick="creaScacchiera(document.getElementById('numeroDiv').value)">Crea Scacchiera</button>
 </body>
 </html>
