@@ -74,8 +74,9 @@
               document.getElementById("ciao").innerHTML = Tgame;
             if(Tgame <= 0){clearInterval(startgame);
              document.body.innerHTML = "Hai perso"; }
-          },100)
-
+          },100);
+          let button= document.getElementById("bt");
+          button.disabled= true;
 
             for (var i = 0; i < numeroDiv; i++) {
                 var boardRow = document.createElement("div");
@@ -96,6 +97,7 @@
                         square.style.backgroundColor = "white";
                       square.classList.add("white");
                       square.addEventListener("click", procedP);
+                      
 
                       const imageContainer = document.createElement("div");
                       imageContainer.className = "fiore-container";
@@ -103,6 +105,7 @@
 
                       if (ncas==2){
                         const fioreImg = document.createElement("img");
+                        fioreImg.addEventListener("click", procedP);
                         fioreImg.src = "bomb.png";
                         fioreImg.style.width = "80px";
                         fioreImg.style.height = "80px";
@@ -110,6 +113,7 @@
                       }
                       if (ncas==1){
                       const romanImg = document.createElement("img");
+                      romanImg.addEventListener("click", procedP);
                       romanImg.src = "pizza.jpg";
                       romanImg.style.width = "80px";
                       romanImg.style.height = "80px";
@@ -128,6 +132,7 @@
                         
                       if (ncas==2){
                         const fioreImg = document.createElement("img");
+                        fioreImg.addEventListener("click", procedP);
                         fioreImg.src = "bomb.png";
                         fioreImg.style.width = "80px";
                         fioreImg.style.height = "80px";
@@ -135,6 +140,7 @@
                       }
                       if (ncas==1){
                       const romanImg = document.createElement("img");
+                       romanImg.addEventListener("click", procedP);
                       romanImg.src = "pizza.png";
                       romanImg.style.width = "80px";
                       romanImg.style.height = "80px";
@@ -167,6 +173,6 @@
 
     <label for="numeroDiv">Inserisci il numero di div per riga:</label>
     <input type="number" id="numeroDiv" />
-    <button onclick="creaScacchiera(document.getElementById('numeroDiv').value)">Crea Carte</button>
+    <button id="bt"onclick="creaScacchiera(document.getElementById('numeroDiv').value)">Crea Carte</button>
 </body>
 </html>
