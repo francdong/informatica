@@ -1,0 +1,52 @@
+  <!DOCTYPE html>
+  <html lang="it">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gr</title>
+  <style>
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .box{
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    margin: 2px;
+  }
+  </style>
+  </head>
+  <body>
+  <input type="number" id="in"/>
+    <div class="container" id="grid"></div>
+  <p id="out"></p>
+
+  <script>
+  document.getElementById("in").addEventListener("input", function() {
+    let nscelto = document.getElementById("in").value;
+
+    document.querySelectorAll("#grid .box:not(:first-child)").forEach(function(box) {
+      box.remove();
+    });
+
+
+    for(let i = 1; i <= nscelto; i++) {
+      document.getElementById("out").innerHTML += i;
+      let box = document.createElement("div");
+      box.className = "box";
+
+      if(i % 2 == 0) {
+        box.style.backgroundColor = "lightgrey";
+      } else {
+      box.style.backgroundColor = "darkgrey";
+    }
+
+    document.getElementById("grid").appendChild(box);
+  }
+
+});
+</script>
+
+</body>
+</html>
