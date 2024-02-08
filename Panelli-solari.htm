@@ -30,9 +30,10 @@
   <script >
     function converte(){
       
-      let W = document.getElementById("kw_inp").value ;
-      let risultato= kw * n_pannelli ;
-        document.getElementById("out").innerHTML = "kilowattora = "+ kwh ;
+      let P = document.getElementById("kw_inp").value ;
+      let n_pannelli= document.getElementById("npan_inp").value ;
+      let risultato= P * n_pannelli ;
+        document.getElementById("out").innerHTML = "kilowattora = "+ risultato ;
      
     }
     
