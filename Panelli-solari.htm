@@ -1,1 +1,50 @@
+<!DOCTYPE html>
+<html>
+<h1>kw</h1>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>replit</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <style>
+    #box{
+      border-style:solid ;
+      border-color:red ;
+      weight: 70 px ;
+      height: 70 px ;
+    }
+  </style>
+</head>
+  <div id="box">
+    <label for="kw_inp">kilowatt</label>
+    <input type="text" id="kw_inp" name="kw_inp">
+
+    <label for="h_inp">quanto tempo?</label>
+    <input type="text" id="h_inp" name="h_inp">
+  </div>
+
+<body>
+  
+ 
+  <button onclick="converte()">CLICCA</button>
+  <p id="out" style="font-size:50px "></p>
+  <script >
+    function converte(){
+      
+      let kw = document.getElementById("kw_inp").value;
+      let h = document.getElementById("h_inp").value;
+      let kwh= kw * h ;
+        document.getElementById("out").innerHTML = "kilowattora = "+ kwh ;
+     
+    }
+    
+    /*1 kw=un unita di energia elletrigia che equivbale a 1000 W.
+    se ha acasa avvesdimo un eletytrodmensticio (lavtrice) che produce un'energia di 100kw. che cosuma 1000 w eed in funzione 1h lunita di misura pwe  comprendere il consummon effetivo della lavatrice corrisponde ai suoi watt per il suo temopo di utilizzo (kwh)chg
+    crea uun propgrasmma che converte i kw in kwh (formuilla = kwh=kw*h)
+    un div con dentro , conertitore kw in kwh , button e outoput )*/
+    
+  </script>
+</body>
+
+</html>
 
