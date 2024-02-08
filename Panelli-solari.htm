@@ -17,10 +17,8 @@
 </head>
   <div id="box">
     <label for="kw_inp">kilowatt</label>
-    <input type="text" id="kw_inp" name="kw_inp">
+    <input type="text" id="w_inp" name="kw_inp">
 
-    <label for="h_inp">quanto tempo?</label>
-    <input type="text" id="h_inp" name="h_inp">
   </div>
 
 <body>
@@ -31,8 +29,7 @@
   <script >
     function converte(){
       
-      let kw = document.getElementById("kw_inp").value;
-      let h = document.getElementById("h_inp").value;
+      let W = document.getElementById("kw_inp").value ;
       let kwh= kw * h ;
         document.getElementById("out").innerHTML = "kilowattora = "+ kwh ;
      
