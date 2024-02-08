@@ -18,7 +18,8 @@
   <div id="box">
     <label for="kw_inp">kilowatt</label>
     <input type="text" id="w_inp" name="kw_inp">
-
+<label for="n-paninp">quanti pannelli?</label>
+    <input type="text" id="npan_inp" name="n-paninp">
   </div>
 
 <body>
@@ -30,7 +31,7 @@
     function converte(){
       
       let W = document.getElementById("kw_inp").value ;
-      let kwh= kw * h ;
+      let risultato= kw * n_pannelli ;
         document.getElementById("out").innerHTML = "kilowattora = "+ kwh ;
      
     }
