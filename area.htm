@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<h1>kw</h1>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>replit</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <style>
+    #box{
+      border-style:solid ;
+      border-color:red ;
+      weight: 70 px ;
+      height: 70 px ;
+    }
+  </style>
+</head>
+  <div id="box">
+    <label for="peso_inp">raggio :</label>
+    <input type="text" id="inp1" name="peso-inp"><br>
+
+    
+  </div>
+
+<body>
+  
+ 
+  <button onclick="converte()">CLICCA</button>
+  <p id="out" style="font-size:50px "></p>
+  <script >
+    function converte(){
+      
+      let r = document.getElementById("inp1").value;
+      let Area= 3.14 * (r * r);
+      
+       
+
+       document.getElementById("out").innerHTML = "Area di uno tuo cerchio : = "+ Area  ;
+    }
+    
+    
+    
+  </script>
+</body>
+
+</html>
