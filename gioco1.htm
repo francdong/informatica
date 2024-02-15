@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>replit</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <label>n:</label>
+<input type="number" id="inp">
+  <button onclick="f1()">2</button>
+  <button onclick="f2()">3</button>
+  <button onclick="f3()">7</button>
+  
+</head>
+<p id="out1"></p>
+  <p id="out2"></p>
+  <p id="out3"></p>
+<body>
+  
+  <script >
+ 
+    let somma="";
+
+ 
+    
+    function f1(){  let n = parseInt(document.getElementById("inp").value);
+                  if(isNaN(n)){n=0;}
+                 let somma= n + 2;
+
+      document.getElementById("out1").innerHTML = "1°bottone : "+ somma;
+    }
+    function f2(){ let n = parseInt(document.getElementById("inp").value);  
+                  if(isNaN(n)){n=0;}
+                    somma= n + 3;
+      document.getElementById("out2").innerHTML = "2°bottone : "+ somma;
+    }
+    function f3(){ let n = document.getElementById("inp").value;
+                  if(isNaN(n)){n=0;}
+                  let somma= n + 7;
+                  document.getElementById("out3").innerHTML = "3°bottone : "+ somma;
+    }
+    
+  </script>
+</body>
+
+</html>
