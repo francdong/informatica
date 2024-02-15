@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<h1>kw</h1>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>replit</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <style>
+    #box{
+      border-style:solid ;
+      border-color:red ;
+      weight: 70 px ;
+      height: 70 px ;
+    }
+  </style>
+</head>
+  <div id="box">
+    <label for="peso_inp">il peso della persona in kg :</label>
+    <input type="text" id="inp1" name="peso-inp"><br>
+
+    <label for="h_inp"> l'altezza della persona in metri :</label>
+    <input type="text" id="inp2" name="h_inp">
+  </div>
+
+<body>
+  
+ 
+  <button onclick="converte()">CLICCA</button>
+  <p id="out" style="font-size:50px "></p>
+  <script >
+    function converte(){
+      
+      let p = document.getElementById("inp1").value;
+      let h = document.getElementById("inp2").value;
+      let imc= p / (h*h);
+      let msg="";
+       
+      if(imc >= 30){ msg="Obesità"}
+      if(imc < 30){msg="Sovrappeso"}
+      if(imc < 25){msg="Normopeso"}
+      if(imc < 18.5){msg="Sottopeso"}
+       document.getElementById("out").innerHTML = "il tuo IMC : = "+ imc + "<br>" + "il tuo stato:" + msg ;
+    }
+    
+    /* IMC < 18.5: Sottopeso 
+    ● 18.5 ≤ IMC < 25: Normopeso 
+    ● 25 ≤ IMC < 30: Sovrappeso 
+    ● IMC ≥ 30: Obesità*/
+    
+  </script>
+</body>
+
+</html>
