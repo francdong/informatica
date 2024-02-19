@@ -21,24 +21,24 @@
   <script >
  
     let somma="";
-
+    let n1 = 0;
  
     
-    function f1(){  let n = parsefloat(document.getElementById("inp").value);
+    function f1(){  let n = parseFloat(document.getElementById("inp").value);
                   if(isNaN(n)){n=0;}
-                  n += 2;
+                  n1 = n + n1 + 2;
 
-      document.getElementById("out1").innerHTML = "1°bottone : "+ n;
+      document.getElementById("out1").innerHTML = "1°bottone : "+ n1;
     }
-    function f2(){ let n = parsefloat(document.getElementById("inp").value);  
+    function f2(){ let n = parseFloat(document.getElementById("inp").value);  
                   if(isNaN(n)){n=0;}
-                    n += 3;
+                  n1 = n + n1 + 3;
       document.getElementById("out2").innerHTML = "2°bottone : "+ n;
     }
-    function f3(){ let n = document.getElementById("inp").value;
+    function f3(){ let n = parseFloat( document.getElementById("inp").value)
                   if(isNaN(n)){n=0;}
-                  n += 7;
-                  document.getElementById("out3").innerHTML = "3°bottone : "+ n;
+                  n1 = n + n1 + 7;
+                  document.getElementById("out3").innerText = "3°bottone : "+ n;
     }
     
   </script>
