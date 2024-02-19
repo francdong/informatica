@@ -24,20 +24,20 @@
 
  
     
-    function f1(){  let n = parseInt(document.getElementById("inp").value);
+    function f1(){  let n = parsefloat(document.getElementById("inp").value);
                   if(isNaN(n)){n=0;}
-                 let somma= n + 2;
+                  n += 2;
 
       document.getElementById("out1").innerHTML = "1°bottone : "+ somma;
     }
-    function f2(){ let n = parseInt(document.getElementById("inp").value);  
+    function f2(){ let n = parsefloat(document.getElementById("inp").value);  
                   if(isNaN(n)){n=0;}
-                    somma= n + 3;
+                    n += 3;
       document.getElementById("out2").innerHTML = "2°bottone : "+ somma;
     }
     function f3(){ let n = document.getElementById("inp").value;
                   if(isNaN(n)){n=0;}
-                  let somma= n + 7;
+                  n += 7;
                   document.getElementById("out3").innerHTML = "3°bottone : "+ somma;
     }
     
