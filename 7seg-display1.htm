@@ -1,75 +1,88 @@
+<!DOCTYPE html>
+<html>
+<body>
 
-int a=2;
-int b=3;
-int c=4;
-int d=5;
-int e=6;
-int f=7;
-int g=8;
-void setup() {
-  Serial.begin(9600);
- pinMode (a, OUTPUT);
+<h2>Sorting and Writing Items</h2>
+
+<pre id="arduinoCode">
+//  Il primo
+int a = 2;
+int b = 3;
+int c = 4;
+int d = 5;
+int e = 6;
+int f = 7;
+int g = 8;
+         
+void setup()
+{
+
+  pinMode (a, OUTPUT);
   pinMode (b, OUTPUT);
   pinMode (c, OUTPUT);
   pinMode (d, OUTPUT);
   pinMode (e, OUTPUT);
   pinMode (f, OUTPUT);
   pinMode (g, OUTPUT);
+ 
 }
 
-void led(int n) {
-  // put your main code here, to run repeatedly:
-switch (n)
+void loop()
 {
-case (0):
- digitalWrite(a, HIGH);
-  digitalWrite(b, HIGH);
-  digitalWrite(c, HIGH);
-  digitalWrite(d, HIGH);
-  digitalWrite(e,HIGH);
-  digitalWrite(f, HIGH);
-    digitalWrite(g, LOW);
-break;
-case (1):
-  digitalWrite(b, HIGH);
-  digitalWrite(c, HIGH);
   digitalWrite(a, LOW);
+  digitalWrite(b, LOW);
+  digitalWrite(c, LOW);
   digitalWrite(d, LOW);
   digitalWrite(e, LOW);
   digitalWrite(f, LOW);
   digitalWrite(g, LOW);
+     delay(1000);
  
-break;
-case (2):
-digitalWrite(a, HIGH);
+  digitalWrite(a, LOW);
+  digitalWrite(b, HIGH);
+  digitalWrite(c, HIGH);
+  digitalWrite(d, LOW);
+  digitalWrite(e, LOW);
+  digitalWrite(f, LOW);
+  digitalWrite(g, LOW);
+       delay(1000);
+     
+  digitalWrite(a, HIGH);
   digitalWrite(b, HIGH);
   digitalWrite(c, LOW);
   digitalWrite(d, HIGH);
   digitalWrite(e, HIGH);
   digitalWrite(f, LOW);
   digitalWrite(g, HIGH);
-break;
-case (3):
- digitalWrite(a, HIGH);
+       delay(1000);
+   
+  digitalWrite(a, HIGH);
   digitalWrite(b, HIGH);
   digitalWrite(c, HIGH);
   digitalWrite(d, HIGH);
   digitalWrite(e, LOW);
   digitalWrite(f, LOW);
   digitalWrite(g, HIGH);
-
-break;
-case (4):
- digitalWrite(a, LOW);
+       delay(1000);
+     
+  digitalWrite(a, LOW);
   digitalWrite(b, HIGH);
   digitalWrite(c, HIGH);
   digitalWrite(d, LOW);
   digitalWrite(e, LOW);
   digitalWrite(f, HIGH);
   digitalWrite(g, HIGH);
+       delay(1000);
 
-break;
-case (5):
+  digitalWrite(a, LOW);
+  digitalWrite(b, HIGH);
+  digitalWrite(c, HIGH);
+  digitalWrite(d, LOW);
+  digitalWrite(e, LOW);
+  digitalWrite(f, HIGH);
+  digitalWrite(g, HIGH);
+       delay(1000);
+
   digitalWrite(a, HIGH);
   digitalWrite(b, LOW);
   digitalWrite(c, HIGH);
@@ -77,35 +90,36 @@ case (5):
   digitalWrite(e, LOW);
   digitalWrite(f, HIGH);
   digitalWrite(g, HIGH);
-break;
-case (6):
-   digitalWrite(a, HIGH);
+     delay(1000);
+
+  digitalWrite(a, HIGH);
   digitalWrite(b, LOW);
   digitalWrite(c, HIGH);
   digitalWrite(d, HIGH);
   digitalWrite(e, HIGH);
   digitalWrite(f, HIGH);
   digitalWrite(g, HIGH);
-break;
-case (7):
-   digitalWrite(a, HIGH);
+     delay(1000);
+ 
+  digitalWrite(a, HIGH);
   digitalWrite(b, HIGH);
   digitalWrite(c, HIGH);
   digitalWrite(d, LOW);
   digitalWrite(e, LOW);
   digitalWrite(f, LOW);
   digitalWrite(g, LOW);
-break;
-case (8):
-    digitalWrite(a, HIGH);
+     delay(1000);
+ 
+  digitalWrite(a, HIGH);
   digitalWrite(b, HIGH);
   digitalWrite(c, HIGH);
   digitalWrite(d, HIGH);
   digitalWrite(e, HIGH);
   digitalWrite(f, HIGH);
   digitalWrite(g, HIGH);
-break;
-case (9):
+     delay(1000);
+ 
+ 
   digitalWrite(a, HIGH);
   digitalWrite(b, HIGH);
   digitalWrite(c, HIGH);
@@ -113,17 +127,47 @@ case (9):
   digitalWrite(e, LOW);
   digitalWrite(f, HIGH);
   digitalWrite(g, HIGH);
-break;
+     delay(1000);
+ 
 
-case (10):
-int x=0;
-break;
-}}
-
-void loop(){
- for(int x=0; x<=9; x++)
-{led(x);
-Serial.println(x);
-delay(1000);
-  }
+  digitalWrite(a, HIGH);
+  digitalWrite(b, HIGH);
+  digitalWrite(c, HIGH);
+  digitalWrite(d, HIGH);
+  digitalWrite(e, HIGH);
+  digitalWrite(f, HIGH);
+  digitalWrite(g, LOW);
+     delay(1000);
 }
+
+
+  // il secobdo tipo 
+</pre>
+
+<script>
+  // Get the Arduino code as a string
+  var arduinoCode = document.getElementById("arduinoCode").innerText;
+
+  // Split the code into lines
+  var lines = arduinoCode.split("\n");
+
+  // Use for loop to order the lines
+  var orderedLines = [];
+  for (var i = 0; i < lines.length; i++) {
+    // Do something with each line, for example, display it in HTML
+    var li = document.createElement("li");
+    li.appendChild(document.createTextNode(i + 1 + ". " + lines[i]));
+    orderedLines.push(li);
+  }
+
+  // Join the ordered lines into a single string
+  var orderedCode = orderedLines.join("\n");
+
+  // Display the ordered code in an HTML element
+  document.getElementById("myList").innerHTML = orderedCode;
+</script>
+
+<ul id="myList"></ul>
+
+</body>
+</html>
