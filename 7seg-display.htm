@@ -2,6 +2,7 @@
 <html>
 <head>
 <style>
+
   pre {
     font-family: monospace;
   }
@@ -10,7 +11,7 @@
     margin-right: 10px;
   }
 </style>
-  <title>Relazione di Display a 7 segmemti </title>
+  <title>Relazione di Display a 7 segmenti </title>
 </head>
 <body>
 
@@ -28,4 +29,27 @@
     <span class="linenumber">10</span>  Serial.begin(9600);
     <span class="linenumber">11</span>  }
 
-
+    <span class="linenumber">13</span> void loop() {
+    <span class="linenumber">14</span>   int valore = digitalRead(button1);
+    <span class="linenumber">15</span>   int valore2 = digitalRead(button2);
+    <span class="linenumber">16</span>   if (valore == 1) {
+    <span class="linenumber">17</span>     for (int x = 0; x <= 9; x++) {
+    <span class="linenumber">18</span>       led(x);
+    <span class="linenumber">19</span>       Serial.println(x);
+    <span class="linenumber">20</span>       delay(1000);
+    <span class="linenumber">21</span>     }
+    <span class="linenumber">22</span>   }
+    <span class="linenumber">23</span>   if (valore2 == 1) {
+    <span class="linenumber">24</span>     for (int x = 0; x <= 9; x--) {
+    <span class="linenumber">25</span>       led(x);
+    <span class="linenumber">26</span>       Serial.println(x);
+    <span class="linenumber">27</span>       delay(1000);
+    <span class="linenumber">28</span>     }
+    <span class="linenumber">29</span>   } else {
+    <span class="linenumber">30</span>     for (int x = 0; x <= 9; x++) {
+    <span class="linenumber">31</span>       led(x);
+    <span class="linenumber">32</span>       Serial.println(x);
+    <span class="linenumber">33</span>       delay(1000);
+    <span class="linenumber">34</span>     }
+    <span class="linenumber">35</span>   }
+    <span class="linenumber">
