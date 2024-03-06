@@ -1,1 +1,37 @@
+<!DOCTYPE html>
+<html>
+<body>
 
+<h2>Sorting and Writing Items</h2>
+
+<pre id="arduinoCode">
+
+</pre>
+
+<script>
+  // Get the Arduino code as a string
+  var arduinoCode = document.getElementById("arduinoCode").innerText;
+
+  // Split the code into lines
+  var lines = arduinoCode.split("\n");
+
+  // Use for loop to order the lines
+  var orderedLines = [];
+  for (var i = 0; i < lines.length; i++) {
+    // Do something with each line, for example, display it in HTML
+    var li = document.createElement("li");
+    li.appendChild(document.createTextNode(i + 1 + ". " + lines[i]));
+    orderedLines.push(li);
+  }
+
+  // Join the ordered lines into a single string
+  var orderedCode = orderedLines.join("\n");
+
+  // Display the ordered code in an HTML element
+  document.getElementById("myList").innerHTML = orderedCode;
+</script>
+
+<ul id="myList"></ul>
+
+</body>
+</html>
