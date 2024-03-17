@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  https://youtu.be/qvFYy6I0UCI?feature=shared
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>replit</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<title>array2</title>
+<body>
+ <p id="out"></p>
+  <p id="outFruits"></p>
+  <button id="b1" onclick="AddElementArray ()">Ordina</button>
+ <button id="b1" onclick="AddElementArraytolto ()">togli</button>
+<style></style>
+  <script>
+    let a="variabile text" ;
+    let nuovoELe="";
+    
+    document.getElementById("out").innerHTML = a;
+    let fruits = ["apple", "banana", "cherry","orange"] ;
+     document.getElementById("outFruits").innerHTML = fruits + "<br>" + "quantità : " + fruits.length;
+
+    
+    function AddElementArray (){
+      
+     nuovoELe = prompt("inserisci un nuovo elemento");
+      
+      
+  
+      if(nuovoELe !== ""){
+        fruits.push(nuovoELe)
+         document.getElementById("outFruits").innerHTML = fruits + "<br>" + "quantità di adesso sono " + fruits.length; } else{   fruits.pop();
+             document.getElementById("outFruits").innerHTML = fruits + "<br>" + "quantità di adesso sono k " ;}
+   
+    }
+    function AddElementArraytolto(){
+    
+      fruits.pop();
+       document.getElementById("outFruits").innerHTML = fruits + "<br>" + "quantità di adesso sono " + fruits.length;
+    }
+   
+   
+  </script>
+</body>
+
+</html>
