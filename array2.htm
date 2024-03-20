@@ -58,8 +58,8 @@
 
     function updateList(array, itemId) {
       if (itemId == "ordine") {
-        document.getElementById("congratulazioni").textContent = "CONGRATULAZIONI! ORDINE EFFETTUATO CON SUCCESSO!";
-        document.getElementById("dettagli").textContent = "DETTAGLI DELL'ORDINE:";
+        document.getElementById("congratulazioni").textContent = "ORDINE EFFETTUATO.";
+        document.getElementById("dettagli").textContent = "I tuoi ordini:";
       }
       document.getElementById(itemId).textContent = array.join(", ");
     }
@@ -74,4 +74,3 @@
   </script>
 </body>
 </html>
-
