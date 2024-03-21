@@ -8,8 +8,8 @@
 </head>
 <body>
   <h2>Bevande</h2>
-  <p id="drinksOut"></p>
-  <div>k
+  <p id="drinksOut">1) Latte schiumato", "2) Acqua", "3) Marochino", "4) Bibita gialla", "5) Ananas drink</p>
+  <div>
     <button id="addDrink">Aggiungi bevanda?</button>
     <br><br>
     <button id="removeDrink">Togli bevanda?</button>
@@ -69,7 +69,6 @@
     function updateList(array, itemId){
       
     };
-    updateList(drinks, "drinksOut");
     updateList(orders, "Ordini");
 
     document.getElementById("addDrink").addEventListener("click", () => addItem(orders, "Ordini"));
