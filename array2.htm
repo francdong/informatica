@@ -45,6 +45,9 @@
           document.getElementById("congratulazioni").textContent = "ORDINE EFFETTUATO.";
         document.getElementById("dettagli").textContent = "I tuoi ordini:";
           document.getElementById("ordine").textContent = array.join(", ");
+           const count = array.length;
+      updateList(array, itemId);
+      document.getElementById("conta").textContent = count;
         a=0;}
       } else {
         alert("Indice non valido. Nessuna bevanda aggiunta.");
@@ -59,21 +62,10 @@
           document.getElementById("congratulazioni").textContent = "ORDINE EFFETTUATO.";
         document.getElementById("dettagli").textContent = "I tuoi ordini:";
           document.getElementById("ordine").textContent = array.join(", ");
-        a=0;}
-    }
-
-    function countItems(array, itemId) {
-      const count = array.length;
+           const count = array.length;
       updateList(array, itemId);
       document.getElementById("conta").textContent = count;
-    }
-
-    function updateList(array, itemId) {
-      if (itemId == "ordine") {
-        document.getElementById("congratulazioni").textContent = "ORDINE EFFETTUATO.";
-        document.getElementById("dettagli").textContent = "I tuoi ordini:";
-      }
-      document.getElementById(itemId).textContent = array.join(", ");
+        a=0;}
     }
 
     updateList(drinks, "drinksOut");
