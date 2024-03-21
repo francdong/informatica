@@ -65,7 +65,13 @@
       document.getElementById("conta").textContent = count;
         a=0;}
     }
-
+function updateList(array, itemId) {
+      if (itemId == "ordine") {
+        document.getElementById("congratulazioni").textContent = "ORDINE EFFETTUATO CON SUCCESSO!";
+        document.getElementById("dettagli").textContent = "DETTAGLI DELL'ORDINE:";
+      }
+      document.getElementById(itemId).textContent = array.join(", ");
+    }
     updateList(drinks, "drinksOut");
     updateList(orders, "Ordini");
 
