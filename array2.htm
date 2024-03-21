@@ -14,7 +14,7 @@
     <br><br>
     <button id="removeDrink">Togli bevanda?</button>
     <br><br>
-    
+
   </div>
   <p id="Ordini"></p>
   <p id="conta"></p>
@@ -28,10 +28,10 @@
     let orders = [];
 
     function addItem(array, itemId) {
-      let index = parseInt(prompt("Inserisci il numero della bevanda da ordinare (1-" + drinks.length + "):")) - 1;
+      let index = parseInt(prompt("Quale bevanda,inserendo dal 1 al " + drinks.length + "):")) - 1;
 
       while (isNaN(index) || index < 0 || index >= drinks.length) {
-        index = parseInt(prompt("Indice non valido. Inserisci un numero valido (1-" + drinks.length + "):")) - 1;
+        index = parseInt(prompt("Indice non valido. Inserisci un numero valido dal 1 al " + drinks.length + "):")) - 1;
       }
 
       const drink = drinks[index];
@@ -65,19 +65,15 @@
       document.getElementById("conta").textContent = count;
         a=0;}
     }
-function updateList(array, itemId) {
-      if (itemId == "ordine") {
-        document.getElementById("congratulazioni").textContent = "ORDINE EFFETTUATO CON SUCCESSO!";
-        document.getElementById("dettagli").textContent = "DETTAGLI DELL'ORDINE:";
-      }
-      document.getElementById(itemId).textContent = array.join(", ");
-    }
+    function updateList(array, itemId){
+      
+    };
     updateList(drinks, "drinksOut");
     updateList(orders, "Ordini");
 
     document.getElementById("addDrink").addEventListener("click", () => addItem(orders, "Ordini"));
     document.getElementById("removeDrink").addEventListener("click", () => removeItem(orders, "Ordini"));
-    
+
   </script>
 </body>
 </html>
