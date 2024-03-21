@@ -28,10 +28,11 @@
     let orders = [];
 
     function addItem(array, itemId) {
-      let index = parseInt(prompt("Quale bevanda,inserendo dal 1 al " + drinks.length + "):")) - 1;
+        let index = parseInt(prompt("Quale bevanda,inserendo dal 1 al " + drinks.length + ":")) - 1;
 
-      while (isNaN(index) || index < 0 || index >= drinks.length) {
-        index = parseInt(prompt("Indice non valido. Inserisci un numero valido dal 1 al " + drinks.length + "):")) - 1;
+        while (isNaN(index) || index < 0 || index >= drinks.length) {
+          index = parseInt(prompt("Indice non valido. Inserisci un numero valido dal 1 al " + drinks.length + ":")) - 1;
+        
       }
 
       const drink = drinks[index];
@@ -41,11 +42,11 @@
         a=1;
         if(a==1){
           document.getElementById("congratulazioni").textContent = "ORDINE EFFETTUATO.";
-        document.getElementById("dettagli").textContent = "I tuoi ordini:";
+        document.getElementById("dettagli").textContent = "I tuoi ordini : ";
           document.getElementById("ordine").textContent = array.join(", ");
            const count = array.length;
       updateList(array, itemId);
-      document.getElementById("conta").textContent = "Quantità :" + <br> + count;
+      document.getElementById("conta").textContent = "Quantità : " + count;
         a=0;}
       } else {
         alert("Indice non valido. Nessuna bevanda aggiunta.");
@@ -57,18 +58,17 @@
       updateList(array, itemId);
       a=1;
         if(a==1){
-          document.getElementById("congratulazioni").textContent = "ORDINE EFFETTUATO.";
-        document.getElementById("dettagli").textContent = "I tuoi ordini:";
+          document.getElementById("congratulazioni").textContent = "ORDINE EFFETTUATO";
+        document.getElementById("dettagli").textContent = "I tuoi ordini :";
           document.getElementById("ordine").textContent = array.join(", ");
            const count = array.length;
       updateList(array, itemId);
-      document.getElementById("conta").textContent = "Quantità :" + "<br>" + count;
+      document.getElementById("conta").textContent = "Quantità : " + count;
         a=0;}
     }
     function updateList(array, itemId){
       
     };
-    
     updateList(drinks, "drinksOut");
     updateList(orders, "Ordini");
 
