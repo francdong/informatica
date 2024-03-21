@@ -40,6 +40,12 @@
       if (drink) {
         orders.push(drink);
         updateList(orders, itemId);
+        a=1;
+        if(a==1){
+          document.getElementById("congratulazioni").textContent = "ORDINE EFFETTUATO.";
+        document.getElementById("dettagli").textContent = "I tuoi ordini:";
+          document.getElementById("ordine").textContent = array.join(", ");
+        a=0;}
       } else {
         alert("Indice non valido. Nessuna bevanda aggiunta.");
       }
