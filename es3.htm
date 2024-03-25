@@ -1,36 +1,237 @@
+ <style>
+  .container {
+
+    width: 100%;
+    max-width: 1140px;
+    margin: 0 auto;
+  }
+
+  .row {
+    
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+  }
+
+  @media (min-width: 768px) {
+    .row {
+      justify-content: center;
+    }
+  }
+
+  @media (min-width: 992px) {
+    .row {
+      margin-right: -15px;
+      margin-left: -15px;
+    }
+
+    .row>[class*='col-']:not(:last-child) {
+      padding-right: 15px;
+      padding-left: 15px;
+    }
+
+    .row>[class*='col-']:nth-child(2):not(:last-child) {
+      padding-right: 15px;
+    }
+
+    .row>[class*='col-']:nth-last-child(2):not(:last-child) {
+      padding-left: 15px;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .row {
+      width: 100%;
+    }
+  }
+
+
+  .col {
+    flex: 1 0 0%;
+    max-width: 100%;
+    padding: 0 15px;
+    box-sizing: border-box;
+  }
+
+  .col-md-auto {
+    flex: 0 0 auto;
+    width: auto;
+  }
+
+  .col-lg-2 {
+    flex: 0 0 16.66666667%;
+    max-width: 16.66666667%;
+  }
+</style>
+
+
+<!DOCTYPE html>
 <html>
-  <body>
-    <button onclick="inizia()">CLICCAMI!</button>
-    <p id="p"></p>
-  </body>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ORDINI</title>
+</head>
+
+<body>
+  <h2>BEVANDE</h2>
+  <p id="drinksOut"></p>
+  <div>
+    <button id="RIMUOVI">ELIMINI</button><br><br>
+    <button id="ordinaDrink">soggetto </button>
+    <br><br>
+    <button id="removeDrink">__verbi__</button>
+    <br><br>
+    <button id="countDrink">Complemento oggetto </button>
+    <br><br>
+    <button id="addDrink">Effettua la frase completa </button>
+  </div>
+  <p id="Ordini"></p>
+  <p id="Beta"></p>
+  <br><br>
+  <p id="congratulazioni"></p>
+  <p id="dettagli"></p>
+  <p id="ordine"></p>
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col col-lg-2" style="border: 10px solid red;">
+        SOGGETTO :
+        <p id="sogg"></p>
+      </div>
+      <div class="col col-lg-2"style="border: 10px solid red;">
+        VERBO  :
+        <p id="verb"></p>
+      </div>
+      <div class="col col-lg-2"style="border: 10px solid red;">
+        ARTICLO+C.O.:
+        <p id="cogg"></p>
+      </div>
+    </div>
+  </div>
+  <p id="frase"></p>
   <script>
-    let cont = 0;
+    let drinks = [];
+    let orders = [];
+    let sogg = [];
+    
 
+   
+    function soggetto(array, itemId, sogg) {
+      let index = prompt(" Inserisci una lettera " + "e ne hai : " + sogg.length );
 
-    function inizia() {
-      interval = setInterval(function() {
-        cont++;
-        document.getElementById("p").innerHTML = cont;
-        if (cont === 5) {
-          clearInterval(interval);
-          tabella();
-        }
-     
-      }, 1000);
-    }
-
-    function tabella() {
-      let somma = '';
-      let finale = '';
-
-      
-      for (let i = 1; i <= 10; i++) {
-        for (let j = 1; j <= 10; j++) {
-          finale += j * i + ' - ';
-        }
-        finale += "<br>"+"<br>"
+      while (index < 0 || index >= sogg.length) {
+        index = prompt("Indice non valido. Inserisci una lettera " + "e ne hai : " + sogg.length ) ;
       }
-      document.getElementById("p").innerHTML = finale;
+
+      const drink = index
+      if (drink) {
+        sogg.push(drink);
+        updateList(b, itemId);
+      }else {
+        alert("Indice non valido. Nessuna bevanda aggiunta.");
+      }
     }
+    function verb (array, itemId , verb){
+      let index = prompt(" Inserisci una lettera " + "e ne hai : " + drinks.length );
+
+      while (index < 0 || index >= sogg.length) {
+        index = prompt("Indice non valido. Inserisci una lettera " + "e ne hai : " + drinks.length ) ;
+      }
+
+      const drink = index
+      if (drink) {
+        drinks.push(drink);
+        updateList(b, itemId);
+      }else {
+        alert("Indice non valido. Nessuna bevanda aggiunta.");
+      }
+    }
+    function cogg(array, itemId, cogg) {
+    let index = prompt(" Inserisci una lettera " + "e ne hai : " + orders.length );
+
+    while (index < 0 || index >= cogg.length) {
+      index = prompt("Indice non valido. Inserisci una lettera " + "e ne hai : " + orders.length ) ;
+    }
+
+    const drink = index
+    if (drink) {
+      orders.push(drink);
+      updateList(b, itemId);
+    }else {
+      alert("Indice non valido. Nessuna bevanda aggiunta.");
+    }}
+
+    function removeItem(array, itemId) { let index = parseInt(prompt("Quale bevanda,inserendo dal 1 al 3:")) ;
+
+          while ( index < 0 || index > 3) {
+            index = parseInt(prompt("Indice non valido. Inserisci un numero valido dal 1 al 3 :")) ;
+
+        }
+
+       if( sogg.length > 1 || drinks.length > 1 || orders.length > 1){
+          if(index==1){ sogg.pop();
+                      updateList(array, itemId);}
+         if(index==2){ drinks.pop() ;
+                     updateList(array, itemId);}
+           if(index==3){
+                        orders.pop();
+             updateList(array, itemId);;}
+        
+        } else {  alert("Indice non valido. Nessuna paola aggiunta.");}}
+
+
+        function updateList(array, itemId) {
+          b = array;
+          if (itemId == "ordine") {
+            document.getElementById("congratulazioni").textContent = "CONGRATULAZIONI! ORDINE EFFETTUATO CON SUCCESSO!";
+            document.getElementById("dettagli").textContent = "DETTAGLI DELL'ORDINE:";
+          }
+          document.getElementById(itemId).textContent = b.join(", ");
+           document.getElementById("cogg").textContent = orders.join(", ");
+          document.getElementById("sogg").textContent = sogg.join(", ");
+          document.getElementById("verb").textContent = drinks.join(", ");
+        } 
+    
+    function createSentence() {
+      if (sogg.length === 0 || drinks.length === 0 || orders.length === 0) {
+        alert("Non puoi creare una frase completa senza soggetto, verbo e complemento oggetto.");
+        return;
+      }
+     /* if( sogg.length > 1 || drinks.length > 1 || orders.length > 1){
+        if(index==1){ let sentence = ` ${sogg[1]} ${drinks[1]} ${orders[1]}`; }
+       if(index==2){ drinks.pop() ;
+                   updateList(array, itemId);}
+         if(index==3){
+                      orders.pop();
+           updateList(array, itemId);;}
+
+      } else {  alert("Indice non valido. Nessuna paola aggiunta.");}}*/
+      let sentence = ` ${sogg[0]} ${drinks[0]} ${orders[0]}`;
+      for (let i = 1; i < sogg.length; i++) {
+        sentence += `, Il ${sogg[i]} ${drinks[i]} ${orders[i]}`;
+      }
+
+      document.getElementById("frase").textContent = sentence;
+    }
+
+    document.getElementById("addDrink").addEventListener("click", createSentence);
+
+        
+    
+
+    updateList(drinks, "drinksOut");
+    updateList(orders, "Ordini");
+    updateList(b, "Beta");
+    updateList(sogg, "sogg");
+
+    document.getElementById("removeDrink").addEventListener("click", () => verb(b, "Ordini",verb));
+   
+    document.getElementById("ordinaDrink").addEventListener("click", () => soggetto(b, "Beta", sogg));
+    document.getElementById("countDrink").addEventListener("click", () => cogg(b, "Beta", cogg))
+    document.getElementById("RIMUOVI").addEventListener("click", () => removeItem(b, "Beta"));
   </script>
+</body>
+
 </html>
