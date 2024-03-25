@@ -1,5 +1,4 @@
-
-<style>
+ <style>
   .container {
 
     width: 100%;
@@ -8,6 +7,7 @@
   }
 
   .row {
+    
     padding: 0;
     display: flex;
     flex-wrap: wrap;
@@ -79,6 +79,7 @@
   <h2>BEVANDE</h2>
   <p id="drinksOut"></p>
   <div>
+    <button id="RIMUOVI">ELIMINI</button><br><br>
     <button id="ordinaDrink">soggetto </button>
     <br><br>
     <button id="removeDrink">__verbi__</button>
@@ -88,31 +89,31 @@
     <button id="addDrink">Effettua la frase completa </button>
   </div>
   <p id="Ordini"></p>
-  <p id="conta"></p>
+  <p id="Beta"></p>
   <br><br>
   <p id="congratulazioni"></p>
   <p id="dettagli"></p>
   <p id="ordine"></p>
   <div class="container">
     <div class="row justify-content-md-center">
-      <div class="col col-lg-2">
+      <div class="col col-lg-2" style="border: 10px solid red;">
         <p id="sogg"></p>
       </div>
-      <div class="col-md-auto">
+      <div class="col col-lg-2"style="border: 10px solid red;">
         <p id="verb"></p>
       </div>
-      <div class="col col-lg-2">
+      <div class="col col-lg-2"style="border: 10px solid red;">
         <p id="cogg"></p>
       </div>
     </div>
   </div>
+  <p id="frase"></p>
   <script>
-    let drinks = ["1) Mojito", "2) Margarita", "3) Negroni", "4) Spritz", "5) Pina Colada",];
-    let orders = [];
-    let sogg = ["soggetto1", "soggetto2", "soggetto3", /* ... */];
+    let drinks = ["VERBO  :"];
+    let orders = ["ARTICLO+C.O.:"];
+    let sogg = ["SOGGETTO :"];
     
-document.getElementById("sogg").innerHTML=sogg;
-    document.getElementById("sogg").innerHTML=verb
+
    
     function soggetto(array, itemId, sogg) {
       let index = prompt(" Inserisci una lettera " + "e ne hai : " + sogg.length );
@@ -124,7 +125,7 @@ document.getElementById("sogg").innerHTML=sogg;
       const drink = index
       if (drink) {
         sogg.push(drink);
-        updateList(orders, itemId);
+        updateList(b, itemId);
       }else {
         alert("Indice non valido. Nessuna bevanda aggiunta.");
       }
@@ -139,41 +140,70 @@ document.getElementById("sogg").innerHTML=sogg;
       const drink = index
       if (drink) {
         drinks.push(drink);
-        updateList(orders, itemId);
+        updateList(b, itemId);
       }else {
         alert("Indice non valido. Nessuna bevanda aggiunta.");
       }
     }
-    function removeItem(array, itemId) {
-      array.pop();
-      updateList(array, itemId);
+    function cogg(array, itemId, cogg) {
+    let index = prompt(" Inserisci una lettera " + "e ne hai : " + cogg.length );
+
+    while (index < 0 || index >= cogg.length) {
+      index = prompt("Indice non valido. Inserisci una lettera " + "e ne hai : " + cogg.length ) ;
     }
 
-    function countItems(array, itemId) {
-      const count = array.length;
-      updateList(array, itemId);
-      document.getElementById("conta").textContent = count;
-    }
+    const drink = index
+    if (drink) {
+      orders.push(drink);
+      updateList(b, itemId);
+    }else {
+      alert("Indice non valido. Nessuna bevanda aggiunta.");
+    }}
 
-    function updateList(array, itemId) {
-      if (itemId == "ordine") {
-        document.getElementById("congratulazioni").textContent = "CONGRATULAZIONI! ORDINE EFFETTUATO CON SUCCESSO!";
-        document.getElementById("dettagli").textContent = "DETTAGLI DELL'ORDINE:";
-      }
-      document.getElementById(itemId).textContent = array.join(", ");
-      document.getElementById("sogg").textContent = sogg.join(", ");
-      document.getElementById("verb").textContent = drinks.join(", ");
-      //document.getElementById("sogg").innerHTML = sogg.join(", ");
-    }
+    function removeItem(array, itemId) { let index = parseInt(prompt("Quale bevanda,inserendo dal 1 al 3:")) ;
+
+          while ( index < 0 || index > 3) {
+            index = parseInt(prompt("Indice non valido. Inserisci un numero valido dal 1 al 3 :")) ;
+
+        }
+
+       if( sogg.length > 1 || drinks.length > 1 || orders.length > 1){
+          if(index==1){ sogg.pop();
+                      updateList(array, itemId);}
+         if(index==2){ drinks.pop() ;
+                     updateList(array, itemId);}
+           if(index==3){
+                        orders.pop();
+             updateList(array, itemId);;}
+        
+        } else {  alert("Indice non valido. Nessuna paola aggiunta.");}}
+
+
+        function updateList(array, itemId) {
+          b = array;
+          if (itemId == "ordine") {
+            document.getElementById("congratulazioni").textContent = "CONGRATULAZIONI! ORDINE EFFETTUATO CON SUCCESSO!";
+            document.getElementById("dettagli").textContent = "DETTAGLI DELL'ORDINE:";
+          }
+          document.getElementById(itemId).textContent = b.join(", ");
+           document.getElementById("cogg").textContent = orders.join(", ");
+          document.getElementById("sogg").textContent = sogg.join(", ");
+          document.getElementById("verb").textContent = drinks.join(", ");
+        }
+
+        
+    
 
     updateList(drinks, "drinksOut");
     updateList(orders, "Ordini");
+    updateList(b, "Beta");
     updateList(sogg, "sogg");
 
-    document.getElementById("removeDrink").addEventListener("click", () => verb(orders, "Ordini",verb));
+    document.getElementById("removeDrink").addEventListener("click", () => verb(b, "Ordini",verb));
    
-    document.getElementById("ordinaDrink").addEventListener("click", () => soggetto(orders, "Ordini", sogg));
-    document.getElementById("ordinaDrink").addEventListener("click", () => updateList(orders, "ordine"));
+    document.getElementById("ordinaDrink").addEventListener("click", () => soggetto(b, "Beta", sogg));
+    document.getElementById("countDrink").addEventListener("click", () => cogg(b, "Beta", cogg))
+    document.getElementById("RIMUOVI").addEventListener("click", () => removeItem(b, "Beta"));
   </script>
 </body>
 
