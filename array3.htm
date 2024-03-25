@@ -1,1 +1,180 @@
 
+<style>
+  .container {
+
+    width: 100%;
+    max-width: 1140px;
+    margin: 0 auto;
+  }
+
+  .row {
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+  }
+
+  @media (min-width: 768px) {
+    .row {
+      justify-content: center;
+    }
+  }
+
+  @media (min-width: 992px) {
+    .row {
+      margin-right: -15px;
+      margin-left: -15px;
+    }
+
+    .row>[class*='col-']:not(:last-child) {
+      padding-right: 15px;
+      padding-left: 15px;
+    }
+
+    .row>[class*='col-']:nth-child(2):not(:last-child) {
+      padding-right: 15px;
+    }
+
+    .row>[class*='col-']:nth-last-child(2):not(:last-child) {
+      padding-left: 15px;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .row {
+      width: 100%;
+    }
+  }
+
+
+  .col {
+    flex: 1 0 0%;
+    max-width: 100%;
+    padding: 0 15px;
+    box-sizing: border-box;
+  }
+
+  .col-md-auto {
+    flex: 0 0 auto;
+    width: auto;
+  }
+
+  .col-lg-2 {
+    flex: 0 0 16.66666667%;
+    max-width: 16.66666667%;
+  }
+</style>
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ORDINI</title>
+</head>
+
+<body>
+  <h2>BEVANDE</h2>
+  <p id="drinksOut"></p>
+  <div>
+    <button id="ordinaDrink">soggetto </button>
+    <br><br>
+    <button id="removeDrink">__verbi__</button>
+    <br><br>
+    <button id="countDrink">Complemento oggetto </button>
+    <br><br>
+    <button id="addDrink">Effettua la frase completa </button>
+  </div>
+  <p id="Ordini"></p>
+  <p id="conta"></p>
+  <br><br>
+  <p id="congratulazioni"></p>
+  <p id="dettagli"></p>
+  <p id="ordine"></p>
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col col-lg-2">
+        <p id="sogg"></p>
+      </div>
+      <div class="col-md-auto">
+        <p id="verb"></p>
+      </div>
+      <div class="col col-lg-2">
+        <p id="cogg"></p>
+      </div>
+    </div>
+  </div>
+  <script>
+    let drinks = ["1) Mojito", "2) Margarita", "3) Negroni", "4) Spritz", "5) Pina Colada",];
+    let orders = [];
+    let sogg = ["soggetto1", "soggetto2", "soggetto3", /* ... */];
+    
+document.getElementById("sogg").innerHTML=sogg;
+    document.getElementById("sogg").innerHTML=verb
+   
+    function soggetto(array, itemId, sogg) {
+      let index = prompt(" Inserisci una lettera " + "e ne hai : " + sogg.length );
+
+      while (index < 0 || index >= sogg.length) {
+        index = prompt("Indice non valido. Inserisci una lettera " + "e ne hai : " + sogg.length ) ;
+      }
+
+      const drink = index
+      if (drink) {
+        sogg.push(drink);
+        updateList(orders, itemId);
+      }else {
+        alert("Indice non valido. Nessuna bevanda aggiunta.");
+      }
+    }
+    function verb (array, itemId , verb){
+      let index = prompt(" Inserisci una lettera " + "e ne hai : " + verb.length );
+
+      while (index < 0 || index >= sogg.length) {
+        index = prompt("Indice non valido. Inserisci una lettera " + "e ne hai : " + verb.length ) ;
+      }
+
+      const drink = index
+      if (drink) {
+        drinks.push(drink);
+        updateList(orders, itemId);
+      }else {
+        alert("Indice non valido. Nessuna bevanda aggiunta.");
+      }
+    }
+    function removeItem(array, itemId) {
+      array.pop();
+      updateList(array, itemId);
+    }
+
+    function countItems(array, itemId) {
+      const count = array.length;
+      updateList(array, itemId);
+      document.getElementById("conta").textContent = count;
+    }
+
+    function updateList(array, itemId) {
+      if (itemId == "ordine") {
+        document.getElementById("congratulazioni").textContent = "CONGRATULAZIONI! ORDINE EFFETTUATO CON SUCCESSO!";
+        document.getElementById("dettagli").textContent = "DETTAGLI DELL'ORDINE:";
+      }
+      document.getElementById(itemId).textContent = array.join(", ");
+      document.getElementById("sogg").textContent = sogg.join(", ");
+      document.getElementById("verb").textContent = drinks.join(", ");
+      //document.getElementById("sogg").innerHTML = sogg.join(", ");
+    }
+
+    updateList(drinks, "drinksOut");
+    updateList(orders, "Ordini");
+    updateList(sogg, "sogg");
+
+    document.getElementById("removeDrink").addEventListener("click", () => verb(orders, "Ordini",verb));
+   
+    document.getElementById("ordinaDrink").addEventListener("click", () => soggetto(orders, "Ordini", sogg));
+    document.getElementById("ordinaDrink").addEventListener("click", () => updateList(orders, "ordine"));
+  </script>
+</body>
+
+</html>
