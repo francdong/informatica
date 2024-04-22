@@ -1,1 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+</head>
+<body>
+  <h1>Numeri Primi</h1>
+  <h3>Calcolo del numero dei Primi compresi nei vari intervalli di 100 unità fino a 10.000</h3>
+  <p id="p"></p> <!--segnal-->
+    <div id="outp"> </div>
+      <div id="out-p" style="color: red;"> </div>
+        <div id="out1*" style="color: blueviolet;"> 
+          
+    </div>
+
+
+    <script>
+       
+        
+      let numero=1;
+        
+        let outpDiv=document.getElementById("outp");
+      let out_pDiv=document.getElementById("out-p");
+       let out1Div=document.getElementById("out1*");
+      let divisoriString= "Numeri pari tra " + (numero-numero) + " e "+ 1000 +" : ";
+      let n=0;
+      let nnumero=0;
+        for(let numero=1;numero<=1000;numero++)
+        { nnumero++
+         if(numero%2!=0&&numero%3!=0&&numero%5!=0&&numero%7!=0&&numero%11!=0){
+         n = numero ;
+         out1Div.innerHTML+=" <p> "+"Numeri primi tra " + (numero-numero) + " e "+ 1000 +" : "+n+  "</p>"}
+         else
+          if (numero%2!=0){
+            n=nnumero ;
+              out_pDiv.innerHTML+=" <p> "+"Numeri dispari tra " + (numero-numero) + " e "+ 1000 +" : "+n+  "</p>"}
+          
+          else if (numero % 2==0){
+            n=nnumero ;
+          outpDiv.innerHTML+=" <p> "+ "Numeri pari tra " + (numero-numero) + " e "+ 1000 +" : "+n+  "</p>"}
+          
+    
+      }
+   
+     
+    </script>
+
+</body>
+</html>
