@@ -1,1 +1,52 @@
+<!DOCTYPE html>
+<html>
 
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>replit</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <style>
+    .div {
+      border: 2px solid black;
+      background-color: white;
+      width: 30px;
+      height: 30px;
+      display: inline-block;
+      text-align: center;
+      line-height: 30px;
+      margin: 2px;
+    }
+  </style>
+  <button onclick="creaDiv()">Create Divs</button>
+  <div id="container" style="all: initial;"></div>
+</head>
+
+<body>
+
+  <script>
+    function creaDiv() {
+      const container = document.getElementById("container");
+      container.innerHTML = "";
+      const ar1 = [];
+
+      for (let i = 0; i < 100; i++) {
+        const div = document.createElement("div");
+       // div.className = "div" ; https://bee04687-085a-427f-bca7-0e53142a7be3-00-13rb6r1lstpt3.picard.replit.dev/
+        const randomNumber = Math.floor(Math.random() * 102);
+        ar1.push(randomNumber);
+
+        if (randomNumber % 2 === 0) {
+          div.style.backgroundColor = "red";
+        } else {
+          div.style.backgroundColor = "lightblue";
+        }
+
+        div.textContent = randomNumber;
+        container.appendChild(div);
+      }
+    }
+  </script>
+</body>
+
+</html>
