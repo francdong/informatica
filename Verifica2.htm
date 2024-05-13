@@ -1,1 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 0 -5px;
+        }
+        .quadrato {
+            height: 40px;
+            width: 40px;
+            border: 1px solid black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        .rosso {
+            background-color: red;
+        }
+        .rosso-chiaro {
+            background-color: lightcoral;
+        }
+        .blu {
+            background-color: lightblue;
+        }
+        .giallo {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div id="container" class="container"></div>
+    <script>
+        const container = document.getElementById("container");
+        const nums = Array.from({ length: 1000 }, (_, i) => i + 1000);
 
+        function IsPrime(n) {
+            let bPrime = true;
+            let fat = 2;
+            while (fat <= (n / 2)) {
+                if (n % fat == 0) {
+                    bPrime = false;
+                }
+                fat++;
+            }
+            return bPrime;
+        }
+
+        nums.forEach(num => {
+            const div = document.createElement("div");
+            div.className = "quadrato";
+            div.textContent = num;
+
+            if (num % 2 === 0) {
+                div.classList.add("rosso");
+            } else if (num % 7 === 0) {
+                div.classList.add("rosso-chiaro");
+            } else {
+                div.classList.add("blu");
+            }
+
+            if (IsPrime(num)) {
+                div.classList.add("giallo");
+            }
+
+            container.appendChild(div);
+        });
+    </script>
+</body>
+</html>
