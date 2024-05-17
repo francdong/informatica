@@ -12,18 +12,19 @@
 #define MOTOR1_IN1 8
 #define MOTOR1_IN2 7
 
+#define MOTOR1_IN1 8
+#define MOTOR1_IN2 7
 void setup() {
-  pinMode(MOTOR1_SPEED, OUTPUT);
   pinMode(MOTOR1_IN1, OUTPUT);
   pinMode(MOTOR1_IN2, OUTPUT);
 }
 
-void motor_clockwise() {
+void motor_avanti() {
   digitalWrite(MOTOR1_IN1, LOW);
   digitalWrite(MOTOR1_IN2, HIGH);
 }
 
-void motor_counterclockwise() {
+void motor_indietro() {
   digitalWrite(MOTOR1_IN1, HIGH);
   digitalWrite(MOTOR1_IN2, LOW);
 }
@@ -34,11 +35,11 @@ void motor_stop() {
 }
 
 void loop() {
-  motor_clockwise();
+  motor_avanti();
   delay(1000);
   motor_stop();
   delay(1000);
-  motor_counterclockwise();
+  motor_indietro();
   delay(1000);
   motor_stop();
   delay(1000);
