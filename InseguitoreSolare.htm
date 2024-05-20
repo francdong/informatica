@@ -8,6 +8,123 @@
 </head>
 <body>
 <pre style="word-wrap: break-word; white-space: pre-wrap;">
+int Apin1 = A0 ;
+int Apin2 = A1 ;
+int Apin3 = A2 ;
+int Apin4 = A3 ;
+int SValore1 = 0;
+int SValore2 = 0;
+int SValore3 = 0;
+int SValore4 = 0;
+
+int primo = 5;
+int secondo = 6;
+int primo2 = 7;
+int secondo2 = 8;
+int problem = 13;
+
+// C++ code
+//
+void setup()
+{
+
+  Serial.begin(9600);
+  pinMode( Apin1, INPUT);
+  pinMode( Apin2, INPUT);
+  pinMode( Apin3, INPUT);
+  pinMode( Apin4, INPUT);
+ 
+ 
+  pinMode (primo, OUTPUT);
+   pinMode (secondo, OUTPUT);
+  pinMode (primo2, OUTPUT);
+   pinMode (secondo2, OUTPUT);
+  pinMode (problem, OUTPUT);
+  pinMode (12, OUTPUT);
+  pinMode (11, OUTPUT);
+  digitalWrite(12, HIGH);
+  digitalWrite(11, HIGH);
+}
+
+void led(int n) {
+  if (SValore1==SValore2){
+  	digitalWrite(problem , HIGH);
+ 	digitalWrite(secondo , LOW);
+   digitalWrite(primo , LOW);
+  }
+  if (SValore3==SValore4){
+  digitalWrite(problem , HIGH);
+  digitalWrite(secondo2 , LOW);
+   digitalWrite(primo2 , LOW);
+  }
+  // put your main code here, to run repeatedly:
+switch (n)
+{
+case (0):
+  digitalWrite(primo , HIGH);
+ digitalWrite(problem , LOW);
+ digitalWrite(primo , LOW);
+ 
+break;
+case (1):
+  digitalWrite(secondo , HIGH);
+  digitalWrite(problem , LOW);
+  digitalWrite(secondo , LOW);
+ 
+ 
+break;
+  case (2):
+digitalWrite(problem , HIGH);
+ 	digitalWrite(secondo , LOW);
+   digitalWrite(primo , LOW);
+break;
+  case (3):
+  digitalWrite(primo2 , HIGH);
+ digitalWrite(problem , LOW);
+ digitalWrite(primo2 , LOW);
+ 
+break;
+case (4):
+  digitalWrite(secondo2 , HIGH);
+  digitalWrite(problem , LOW);
+  digitalWrite(secondo2 , LOW);
+ 
+ 
+break;
+  case (5):
+digitalWrite(problem , HIGH);
+ 	digitalWrite(secondo2 , LOW);
+   digitalWrite(primo2 , LOW);
+break;
+
+
+}
+}
+
+void loop(){
+SValore1 = analogRead(Apin1);
+  SValore2 = analogRead(Apin2);
+  SValore3 = analogRead(Apin3);
+  SValore4 = analogRead(Apin4);
+ 
+  int x;
+  if (SValore3>SValore4){ int x=3;led(x);}  
+ if (SValore3<SValore4) { int x=4;led(x);}  
+ 
+  if (SValore1>SValore2){ int x=0;led(x);}  
+ if (SValore1<SValore2) { int x=1;led(x);}  
+  if (SValore1==SValore2){int x=2;led(x);
+   	}
+  //if (SValore3==SValore4){int x=5;led(x);}
+  	 
+ 
+    
+ 
+  //Serial.println(SValore1);
+ //
+ 
+   
+}
 
 </pre>
 
