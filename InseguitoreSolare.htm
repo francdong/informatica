@@ -1,79 +1,18 @@
-//Connessioni al L293D
-#define EN12 6
-#define A1 7
-#define A2 8
-#define A3 9
-#define A4 10
-#define EN34 11
-#define pulsante 12
-#define potenziometro A0
-bool rotazione = false; // variabile per senso rotazione
-bool pressione; // variabile per leggere lo stato del pulsante
-bool ultimapressione = false; // variabile per salvare lo stato della pressione pulsante
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheda Motori L298N</title>
+   
+</head>
+<body>
+<pre style="word-wrap: break-word; white-space: pre-wrap;">
 
-int velocita = 0; // velocità predefinita
-int velocitaminima = 130; // valore da trovare empiricamente in base alla propria configurazione hardware
+</pre>
 
-void Motore1avanti () {
-  digitalWrite(A1, 1);
-  digitalWrite(A2, 0);
-  analogWrite(EN12, velocita);
-}
+    
 
-void Motore2avanti () {
-  digitalWrite(A3, 1);
-  digitalWrite(A4, 0);
-  analogWrite(EN34, velocita);
-}
-
-void Motore1indietro () {
-  digitalWrite(A1, 0);
-  digitalWrite(A2, 1);
-  analogWrite(EN12, velocita);
-}
-
-void Motore2indietro () {
-  digitalWrite(A3, 0);
-  digitalWrite(A4, 1);
-  analogWrite(EN34, velocita);
-}
-
-void Motore1fermo () { // se il pin EN12 è = LOW o = 0 il motore si fermerà
-  analogWrite(EN12, 0); // A1 e A2 possono quindi assumere qualunque valore
-}
-
-void Motore2fermo () { // se il pin EN34 è = LOW o = 0 il motore si fermerà
-  analogWrite(EN34, 0); // A3 e A4 possono quindi assumere qualunque valore
-}
-
-void setup() {
-  pinMode(EN12, OUTPUT);
-  pinMode(EN34, OUTPUT);
-  pinMode(A1, OUTPUT);
-  pinMode(A2, OUTPUT);
-  pinMode(A3, OUTPUT);
-  pinMode(A4, OUTPUT);
-  pinMode(pulsante, INPUT_PULLUP);
-  analogWrite(EN12, 0); // blocca il motore A
-  analogWrite(EN34, 0); // blocca il motore B
-}
-
-void loop() {
-  velocita = map(analogRead(potenziometro), 0, 1023, 0, 255);
-  if (velocita < velocitaminima) {
-    velocita = 0;
-  }
-  pressione = digitalRead(pulsante);
-  if (pressione == LOW && ultimapressione == HIGH) {
-    rotazione = !rotazione; // Inverte lo stato del motore
-  }
-  ultimapressione = pressione;
-  if (rotazione == true) { // se true allora il motore gira in Avanti
-    Motore1avanti();
-    Motore2avanti();
-  }
-  if (rotazione == false) { // se true allora il motore gira in Indietro
-    Motore1indietro();
-    Motore2indietro();
-  }
-}
+  
+</body>
+</html>
