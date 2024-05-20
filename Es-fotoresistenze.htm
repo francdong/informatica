@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheda Motori L298N</title>
+   
+</head>
+<body>
+<pre style="word-wrap: break-word; white-space: pre-wrap;">
+int Apin1 = A0 ;
+int Apin2 = A1 ;
+
+int SValore1 = 0;
+int SValore2 = 0;
+
+int primo = 5;
+int secondo = 6;
+int problem = 13;
+
+// C++ code
+//
+void setup()
+{
+
+  Serial.begin(9600);
+  pinMode( Apin1, INPUT);
+  pinMode( Apin2, INPUT);
+ 
+ 
+  pinMode (primo, OUTPUT);
+   pinMode (secondo, OUTPUT);
+  pinMode (problem, OUTPUT);
+  pinMode (12, OUTPUT);
+  digitalWrite(12, HIGH);
+}
+
+void led(int n) {
+ 
+  // put your main code here, to run repeatedly:
+switch (n)
+{
+case (0):
+  digitalWrite(primo , HIGH);
+ digitalWrite(problem , LOW);
+ digitalWrite(primo , LOW);
+ 
+break;
+case (1):
+  digitalWrite(secondo , HIGH);
+  digitalWrite(problem , LOW);
+  digitalWrite(secondo , LOW);
+ 
+ 
+break;
+  case (2):
+digitalWrite(problem , HIGH);
+ 	digitalWrite(secondo , LOW);
+   digitalWrite(primo , LOW);
+break;
+
+
+}
+}
+
+void loop(){
+SValore1 = analogRead(Apin1);
+  SValore2 = analogRead(Apin2);
+ 
+  int x;
+  if (SValore1>SValore2){ int x=0;led(x);}  
+ if (SValore1<SValore2) { int x=1;led(x);}  
+  if (SValore1==SValore2){int x=2;led(x);;
+   	}
+    
+ 
+
+ 
+   
+}
+
+
+</pre>
+
+    
+
+  
+</body>
+</html>
