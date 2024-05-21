@@ -1,0 +1,159 @@
+<!--1) Creare un programma che chiede un numero  n e crea con un ciclo for n quadrati .
+ 
+2) Inserire in questi quadrati un numero casuale intero compreso tra 100 e 200
+e colorare di blu lo sfondo dei quadrati che contengono un numero multiplo di 10
+ 
+3) Creare un programma che stampi 1000 quadrati con numeri che vanno da 1 a 1000 e colorare i rossi chiari lo sfondo dei numeri primi
+i numeri primi nei quadrati sono dei link dal quale è possibile navigare in un altra pagina con font(size?) 100 di colore
+rosso con la scritta "prime number"
+
+
+
+Griglia valutativa :
+1) esercizio corretto voto 6
+2) voto max 8 ( con primo esercizio corretto)
+3) voto max 10 ( con il primo e secondo corretto)-->
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Last ver</title>
+    <style>
+    .board {
+            display: grid;
+            gap: 1px;
+        }
+ 
+        .square {
+            width: 10px;
+            height: 10px;
+            border: 1px solid black;
+            box-sizing: border-box;
+        }
+ 
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 0 -5px;
+        }
+        .quadrato {
+            height: 40px;
+            width: 40px;
+            border: 1px solid black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        
+        .rosso-chiaro {
+            background-color: lightcoral;
+        }
+        .blu {
+            background-color: lightblue;
+        }
+        .giallo {
+            background-color: yellow;
+        }
+ 
+    </style>
+</head>
+ 
+<body>
+    <label for="numeroDiv">Inserisci il numero di div per riga:</label>
+    <input type="number" id="numeroDiv" />
+    <button onclick="creaScacchiera(numeroDiv.value)">Crea Scacchiera</button>
+<p id="c"></p>
+    <div id="container" class="container"></div>
+     
+    <script>
+    //1
+    const creaScacchiera = n => {
+            const container = document.body;
+            document.getElementById("c").innerHTML = "LA"; // Correzione qui
+          container.innerHTML = '';
+             // Rimuovi il contenuto esistente
+ 
+            const board = document.createElement("div");
+            board.className = "board";
+ 
+            for (let i = 0; i < n; i++) {
+                const square = document.createElement("div");
+                square.className = "square";
+                board.appendChild(square);
+            }
+ 
+            container.appendChild(board);
+        };
+    //2
+        let container = document.getElementById("container");
+ 
+        function IsnumPrime(n) {
+ 
+          
+            if (n <= 1) return false;
+            for (let i = 2, sqrt = Math.sqrt(n); i <= sqrt; i++) {
+              
+                if (n % i === 0) return false;
+            }
+            return true;
+        }
+ 
+        for (let i = 100; i < 201; i++) {
+            let div = document.createElement("div");
+            div.className = "quadrato";
+            div.textContent = i;
+ 
+            if (i % 10 === 0) {
+                div.classList.add("blu");
+            } else {
+                div.classList.add("giallo");
+            }
+         
+ 
+            container.appendChild(div);
+        }
+        //3
+        let container1 = document.getElementById("container");
+ 
+        function IsnumPrime(n) {
+ 
+          
+            if (n <= 1) return false;
+            for (let i = 2, sqrt = Math.sqrt(n); i <= sqrt; i++) {
+              
+                if (n % i === 0) return false;
+            }
+            return true;
+        }
+ 
+        for (let i = 1; i < 1001; i++) {
+            let div = document.createElement("div");
+            div.className = "quadrato";
+            div.textContent = i;
+            
+ 
+            if (IsnumPrime(i)) {
+                div.classList.add("rosso-chiaro");
+                div.src="numberOne.htm";
+            }
+         
+ 
+            container1.appendChild(div);
+            
+        }
+ 
+        
+    </script>
+ 
+    
+ 
+</body>
+</html>
+ 
+
