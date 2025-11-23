@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calcio Shot Challenge</title>
+  <style>
+    :root {
+      --panel: #0c1524;
+      --panel-border: rgba(255, 255, 255, 0.1);
+      --text: #f4fbff;
+      --muted: #a5bfd3;
+      --accent: #32f0a6;
+      --accent-strong: #1ab884;
+      --pitch: #0f7d3c;
+      --pitch-dark: #0d5a2c;
+      --goal: #f8ffff;
+      --shadow: rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top, #06263a 0%, #030910 60%, #010407 100%);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      padding: clamp(16px, 3vw, 48px);
+    }
+
+    main {
+      width: min(1200px, 100%);
+      display: grid;
+      grid-template-columns: minmax(280px, 360px) minmax(320px, 1fr);
+      gap: clamp(1rem, 3vw, 2.75rem);
+      align-items: center;
+    }
+
+    .panel {
+      background: rgba(2, 10, 20, 0.75);
+      border: 1px solid var(--panel-border);
+      border-radius: 22px;
+      padding: clamp(1.25rem, 2vw, 2rem);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+    }
+
+    h1 {
+      margin: 0 0 0.5rem;
+      font-size: clamp(1.8rem, 2.4vw, 2.4rem);
+      letter-spacing: 0.02em;
+    }
+
+    p {
+      margin: 0 0 1rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .scoreboard {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin: 1rem 0;
+    }
+
+    .score-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.65rem 0.9rem;
+      border-radius: 12px;
+      background: rgba(50, 240, 166, 0.08);
+      border: 1px solid rgba(50, 240, 166, 0.15);
+      font-weight: 600;
+    }
+
+    #message {
+      min-height: 1.4em;
+      font-size: 0.98rem;
+      color: var(--accent);
+    }
+
+    button {
+      width: 100%;
+      padding: 0.9rem 1.2rem;
+      border-radius: 14px;
+      border: none;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: #05120b;
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 24px 55px rgba(0, 0, 0, 0.55);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .field-wrapper {
+      width: 100%;
+      justify-self: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    canvas {
+      width: min(92vw, 720px);
+      height: auto;
+      border-radius: 28px;
+      background: var(--pitch);
+      box-shadow: 0 35px 70px var(--shadow);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      touch-action: none;
+    }
+
+    .tips {
+      margin-top: 1.2rem;
+      padding-left: 1.1rem;
+      color: var(--muted);
+      line-height: 1.4;
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+
+      .panel {
+        width: min(520px, 100%);
+        justify-self: center;
+      }
+    }
+
+    @media (max-width: 520px) {
+      body {
+        padding: 16px 10px 32px;
+      }
+
+      canvas {
+        border-radius: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="panel">
+      <h1>Calcio Shot Challenge</h1>
+      <p>
+        Trascina il pallone all'indietro per scegliere direzione e potenza, quindi rilascia per calciare.
+        Hai 5 tentativi per segnare più goal possibile contro il portiere dinamico.
+      </p>
+      <div class="scoreboard">
+        <div class="score-row"><span>Tiri rimasti</span><span id="shots">5</span></div>
+        <div class="score-row"><span>Goal</span><span id="goals">0</span></div>
+        <div class="score-row"><span>Parate/Out</span><span id="saves">0</span></div>
+      </div>
+      <div id="message" aria-live="polite">Trascina il pallone e prova a bucare la rete!</div>
+      <button id="reset-btn" type="button">Nuova sfida</button>
+      <ul class="tips">
+        <li>Più allunghi la traiettoria, maggiore sarà la potenza.</li>
+        <li>Il portiere sceglie un lato all'ultimo: mira all'incrocio!</li>
+        <li>Funziona con mouse o touch.</li>
+      </ul>
+    </section>
+    <section class="field-wrapper">
+      <canvas id="pitch" aria-label="Campo di calcio interattivo"></canvas>
+    </section>
+  </main>
+
+  <script>
+    const canvas = document.getElementById('pitch');
+    const ctx = canvas.getContext('2d');
+    const messageEl = document.getElementById('message');
+    const shotsEl = document.getElementById('shots');
+    const goalsEl = document.getElementById('goals');
+    const savesEl = document.getElementById('saves');
+    const resetBtn = document.getElementById('reset-btn');
+
+    const cssVars = getComputedStyle(document.documentElement);
+    const colors = {
+      pitchLight: cssVars.getPropertyValue('--pitch').trim() || '#0f7d3c',
+      pitchDark: cssVars.getPropertyValue('--pitch-dark').trim() || '#0d5a2c',
+      goal: cssVars.getPropertyValue('--goal').trim() || '#f8ffff'
+    };
+
+    const shotsTotal = 5;
+    let shotsLeft = shotsTotal;
+    let goals = 0;
+    let saves = 0;
+
+    const state = {
+      width: 720,
+      height: 460,
+      goalLine: 0,
+      goalWidth: 0,
+      penaltyY: 0,
+      dragging: false,
+      dragPointer: null,
+      shotInFlight: false,
+      aimVector: null,
+      pointerId: null,
+      lastTime: performance.now()
+    };
+
+    const ball = {
+      x: 0,
+      y: 0,
+      radius: 14,
+      vx: 0,
+      vy: 0,
+      reset() {
+        ball.radius = state.height * 0.035;
+        ball.x = state.width / 2;
+        ball.y = state.height * 0.78;
+        ball.vx = 0;
+        ball.vy = 0;
+      }
+    };
+
+    const keeper = {
+      width: 80,
+      height: 18,
+      x: 0,
+      y: 0,
+      targetX: 0,
+      speed: 0,
+      setHome() {
+        keeper.width = state.goalWidth * 0.45;
+        keeper.height = state.height * 0.03;
+        keeper.y = state.goalLine + keeper.height * 0.9;
+        keeper.x = state.width / 2;
+        keeper.targetX = keeper.x;
+        keeper.speed = state.width * 0.45;
+      },
+      chooseDive() {
+        const maxOffset = (state.goalWidth / 2) - keeper.width / 2;
+        keeper.targetX = state.width / 2 + (Math.random() * 2 - 1) * maxOffset;
+      }
+    };
+
+    function resizeCanvas() {
+      const maxWidth = Math.min(window.innerWidth * 0.92, 900);
+      const width = Math.max(320, maxWidth);
+      const height = width * 0.64;
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      state.width = width;
+      state.height = height;
+      state.goalLine = state.height * 0.18;
+      state.goalWidth = state.width * 0.32;
+      state.penaltyY = state.height * 0.78;
+      ball.reset();
+      keeper.setHome();
+      if (!state.shotInFlight) {
+        state.aimVector = null;
+      }
+    }
+
+    function updateScoreboard() {
+      shotsEl.textContent = shotsLeft;
+      goalsEl.textContent = goals;
+      savesEl.textContent = saves;
+    }
+
+    function showMessage(text) {
+      messageEl.textContent = text;
+    }
+
+    function pointerPosition(evt) {
+      const rect = canvas.getBoundingClientRect();
+      const clientX = evt.clientX ?? evt.touches?.[0]?.clientX ?? evt.changedTouches?.[0]?.clientX;
+      const clientY = evt.clientY ?? evt.touches?.[0]?.clientY ?? evt.changedTouches?.[0]?.clientY;
+      return {
+        x: (clientX - rect.left) * (state.width / rect.width),
+        y: (clientY - rect.top) * (state.height / rect.height)
+      };
+    }
+
+    function onPointerDown(evt) {
+      if (state.shotInFlight || shotsLeft <= 0) return;
+      const pos = pointerPosition(evt);
+      const dist = Math.hypot(pos.x - ball.x, pos.y - ball.y);
+      if (dist <= ball.radius * 1.5) {
+        state.dragging = true;
+        state.pointerId = evt.pointerId;
+        state.dragPointer = pos;
+        state.aimVector = { x: 0, y: 0 };
+        canvas.setPointerCapture(evt.pointerId);
+      }
+    }
+
+    function onPointerMove(evt) {
+      if (!state.dragging || evt.pointerId !== state.pointerId) return;
+      const pos = pointerPosition(evt);
+      state.dragPointer = pos;
+      state.aimVector = {
+        x: ball.x - pos.x,
+        y: ball.y - pos.y
+      };
+    }
+
+    function onPointerUp(evt) {
+      if (!state.dragging || evt.pointerId !== state.pointerId) return;
+      state.dragging = false;
+      canvas.releasePointerCapture(evt.pointerId);
+      if (!state.aimVector) return;
+      const { x, y } = state.aimVector;
+      const distance = Math.min(Math.hypot(x, y), state.height * 0.45);
+      if (distance < 10) {
+        showMessage('Serve più potenza! Trascina il pallone all’indietro.');
+        state.aimVector = null;
+        return;
+      }
+      const speed = distance * 4;
+      let normX = x / distance;
+      let normY = y / distance;
+      if (normY > -0.1) normY = -0.1;
+      ball.vx = normX * speed;
+      ball.vy = normY * speed;
+      state.shotInFlight = true;
+      keeper.chooseDive();
+      showMessage('Tiro partito! Vediamo se il portiere ci arriva...');
+      state.aimVector = null;
+    }
+
+    canvas.addEventListener('pointerdown', onPointerDown);
+    canvas.addEventListener('pointermove', onPointerMove);
+    canvas.addEventListener('pointerup', onPointerUp);
+    canvas.addEventListener('pointercancel', onPointerUp);
+    resetBtn.addEventListener('click', resetGame);
+    window.addEventListener('resize', resizeCanvas);
+
+    function resetGame() {
+      shotsLeft = shotsTotal;
+      goals = 0;
+      saves = 0;
+      ball.reset();
+      keeper.setHome();
+      state.shotInFlight = false;
+      state.dragging = false;
+      state.aimVector = null;
+      updateScoreboard();
+      showMessage('Trascina il pallone e prova a bucare la rete!');
+    }
+
+    function finishShot(result) {
+      if (!state.shotInFlight) return;
+      state.shotInFlight = false;
+      shotsLeft -= 1;
+      if (result === 'goal') {
+        goals += 1;
+        showMessage('GOOOOL! Hai spiazzato il portiere.');
+      } else if (result === 'save') {
+        saves += 1;
+        showMessage('Parata! Il portiere ci ha messo la mano.');
+      } else {
+        saves += 1;
+        showMessage('Fuori! La palla è terminata oltre i pali.');
+      }
+      updateScoreboard();
+      if (shotsLeft <= 0) {
+        showMessage(`Sfida conclusa: ${goals} goal su ${shotsTotal}! Premi “Nuova sfida” per riprovare.`);
+      }
+      setTimeout(() => {
+        ball.reset();
+        keeper.setHome();
+      }, 600);
+    }
+
+    function update(delta) {
+      if (state.shotInFlight) {
+        ball.x += ball.vx * delta;
+        ball.y += ball.vy * delta;
+
+        ball.vx *= 0.992;
+        ball.vy *= 0.992;
+
+        if (Math.abs(ball.vx) < 5 && Math.abs(ball.vy) < 5 && ball.y > state.goalLine) {
+          finishShot('out');
+        }
+
+        if (ball.x - ball.radius < state.width * 0.12 || ball.x + ball.radius > state.width * 0.88) {
+          ball.vx *= -0.7;
+          ball.x = Math.min(Math.max(ball.x, state.width * 0.12 + ball.radius), state.width * 0.88 - ball.radius);
+        }
+
+        if (ball.y - ball.radius <= state.goalLine) {
+          if (Math.abs(ball.x - state.width / 2) <= state.goalWidth / 2) {
+            const collided =
+              ball.x + ball.radius > keeper.x - keeper.width / 2 &&
+              ball.x - ball.radius < keeper.x + keeper.width / 2 &&
+              ball.y - ball.radius <= keeper.y + keeper.height / 2;
+            if (collided) {
+              finishShot('save');
+            } else {
+              finishShot('goal');
+            }
+          } else {
+            finishShot('out');
+          }
+        }
+
+        const dir = Math.sign(keeper.targetX - keeper.x);
+        keeper.x += dir * keeper.speed * delta;
+        if (Math.abs(keeper.targetX - keeper.x) < 4) {
+          keeper.x = keeper.targetX;
+        }
+      }
+    }
+
+    function pitchGradient(soft = false) {
+      const gradient = ctx.createLinearGradient(0, 0, state.width, state.height);
+      if (soft) {
+        gradient.addColorStop(0, 'rgba(255,255,255,0.85)');
+        gradient.addColorStop(1, 'rgba(255,255,255,0.4)');
+      } else {
+        gradient.addColorStop(0, colors.pitchDark);
+        gradient.addColorStop(1, colors.pitchLight);
+      }
+      return gradient;
+    }
+
+    function drawPitch() {
+      const { width, height, goalLine, goalWidth, penaltyY } = state;
+      const halfWidth = width / 2;
+
+      ctx.fillStyle = pitchGradient();
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.strokeStyle = 'rgba(255,255,255,0.75)';
+      ctx.lineWidth = height * 0.01;
+      ctx.strokeRect(width * 0.12, height * 0.08, width * 0.76, height * 0.84);
+
+      ctx.beginPath();
+      ctx.moveTo(width * 0.12, height * 0.5);
+      ctx.lineTo(width * 0.88, height * 0.5);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(halfWidth, height * 0.5, height * 0.1, 0, Math.PI * 2);
+      ctx.stroke();
+
+      ctx.strokeRect(halfWidth - goalWidth / 2 - width * 0.06, goalLine - height * 0.005, goalWidth + width * 0.12, height * 0.22);
+      ctx.strokeRect(halfWidth - goalWidth / 2, goalLine - height * 0.005, goalWidth, height * 0.12);
+
+      ctx.beginPath();
+      ctx.arc(halfWidth, penaltyY, height * 0.012, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff';
+      ctx.fill();
+
+      ctx.strokeStyle = pitchGradient(true);
+      ctx.lineWidth = height * 0.015;
+      ctx.beginPath();
+      ctx.moveTo(halfWidth - goalWidth / 2, goalLine);
+      ctx.lineTo(halfWidth + goalWidth / 2, goalLine);
+      ctx.stroke();
+
+      ctx.fillStyle = colors.goal;
+      ctx.fillRect(keeper.x - keeper.width / 2, keeper.y - keeper.height / 2, keeper.width, keeper.height);
+    }
+
+    function drawBall() {
+      ctx.shadowColor = 'rgba(0,0,0,0.4)';
+      ctx.shadowBlur = 12;
+      ctx.fillStyle = '#fefefe';
+      ctx.beginPath();
+      ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+
+    function drawAim() {
+      if (!state.dragging || !state.aimVector) return;
+      ctx.strokeStyle = 'rgba(50, 240, 166, 0.8)';
+      ctx.lineWidth = 3;
+      ctx.setLineDash([8, 6]);
+      ctx.beginPath();
+      ctx.moveTo(ball.x, ball.y);
+      ctx.lineTo(state.dragPointer.x, state.dragPointer.y);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    function render(now) {
+      const delta = Math.min((now - state.lastTime) / 1000, 0.02);
+      state.lastTime = now;
+      update(delta);
+      ctx.clearRect(0, 0, state.width, state.height);
+      drawPitch();
+      drawAim();
+      drawBall();
+      requestAnimationFrame(render);
+    }
+
+    resizeCanvas();
+    resetGame();
+    state.lastTime = performance.now();
+    requestAnimationFrame(render);
+  </script>
+</body>
+</html>
+
