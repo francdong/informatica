@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      background-color: white;
+    }
+    .container {
+      background-color: lightgray;
+      width: 900px;
+      height: 1000px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    table {
+      border-collapse: collapse;
+    }
+    table td {
+      border: 1px solid black;
+      width: 100px;
+      height: 100px;
+      text-align: center;
+
+
+
+    }
+
+     #ime {
+        position:relative;
+        left: 0;
+        top: 0;
+        width: 50px;
+        height: 50px;
+        background-color: blue;
+     }
+     #Numericasuali {
+        position:absolute;
+        left: 400px;
+        top: 675px;
+
+        width: 100px;
+        height: 100px;
+        background-color: red;
+  </style>
+</head>
+<body>
+  <div class="container">
+    <table>
+      <tr>
+        <td></td>
+        <td>
+          <button style="background-color: blue;font-size: 50px;"  onclick="writeDirection('alto')">Alto</button>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>
+          <button style="background-color: blue; font-size: 50px;" onclick="writeDirection('sinistra')">Sinistra</button>
+        </td>
+        <td></td>
+        <td>
+          <button style="background-color: blue; font-size: 50px;" onclick="writeDirection('destra')">Destra</button>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <button style="background-color: blue; font-size: 50px;" onclick="writeDirection('basso')">Basso</button>
+        </td>
+        <td></td>
+      </tr>
+    </table>
+  </div>
+  <img id="ime"src="poi.jpg" >
+   <p id="Numericasuali">17</p>
+
+
+
+   <script>
+
+
+
+    var count = 60;
+    var timer = setInterval(function() {
+      document.getElementById('timer').innerHTML = count;
+      count--;
+      if (count < 0) {
+        clearInterval(timer);
+        alert(" fermo, Il gioco è stato interrotto!");
+      }
+    }, 1000);
+
+    const pallone = document.getElementById("ime");
+    let img = 0;
+    let score = 0;
+
+    function writeDirection(direction) {
+      const step = 50;
+      let currentLeft = parseInt(getComputedStyle(ime).left) || 0;
+      let currentTop = parseInt(getComputedStyle(ime).top) || 0;
+
+      switch (direction) {
+        case 'alto':
+          ime.style.top = `${currentTop - step}px`;
+          break;
+        case 'basso':
+          ime.style.top = `${currentTop + step}px`;
+          break;
+        case 'sinistra':
+          ime.style.left = `${currentLeft - step}px`;
+          break;
+        case 'destra':
+          ime.style.left = `${currentLeft + step}px`;
+          break;
+        default:
+          break;
+      }
+
+      // Aggiorna la posizione del pallone
+      var rect = pallone.getBoundingClientRect();
+
+      // Verifica se il pallone ha toccato il numero
+      if (rect.top >= 650 && rect.top <= 750 && rect.left >= 400 && rect.left <= 500) {
+        score += parseInt(document.getElementById('Numericasuali').textContent);
+        document.getElementById('Numericasuali').textContent = Math.floor(Math.random() * 100);
+
+        // Sposta il il numero a una nuova posizione
+        Numericasuali.style.left = `${Math.floor(Math.random() * 600)}px`;
+        Numericasuali.style.top = `${Math.floor(Math.random() * 500)}px`;
+      }
+
+      // Aggiorna il punteggio
+      document.getElementById('score').textContent = score;
+    }
+ </script>
+
+</head>
+<body>
+
+ <div id="timer"></div>
+ <div id="score"></div>
+</body>
+</html>
