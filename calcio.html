@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+  
+ <style>
+   #campo{
+      width: 800px;
+       height: 500px;
+      border: 10px solid black;
+
+    }
+   #pallina{
+    position:absolute;
+    width: auto px;
+    height: auto px;
+   }
+
+
+   #comandi{
+      width:80px;
+       height: auto;
+   border: 10px solid orange;
+      padding-left:30px;
+   }
+   .commandofisso{
+     position:absolute;
+     top: 58px;
+     left: 20px;
+   }
+   .commandofisso2{
+     position:absolute;
+     top: 58px;
+     left: 80px;
+   }
+   #campo-timer{
+     position:relative;
+     width:80px;
+     height: 60px;
+     border: 10px solid orange;
+     top:-100px;
+     left:155px;
+   }
+   #campo-punteggio{
+     position:relative;
+     width:80px;
+     height: 60px;
+     border: 10px solid orange;
+     top:225px;
+     left:10px;
+   }
+   #tre{
+     position:absolute;
+     top: 58px;
+     left: 340px;
+     font-size:30px;
+   }
+
+ </style>
+  
+</head>
+
+<body>
+  
+ <div id="campo">
+    <div id="comandi">
+      <button onclick="pulsante('su')">sopra</button><br><br>
+      <button class="commandofisso2" onclick="pulsante('sinistra')">sinistra</button>
+      <button class="commandofisso" onclick="pulsante('destra')">destra</button><br><br>
+      <button onclick="pulsante('giu')">sotto</button>
+   </div>
+    <div id="campo-timer"><p id="gametime"></p>tempo</div>
+    <div id="campo-punteggio"><p id="punteggio"></p>score</div>
+    <strong id="tre">3</strong>
+    <img id="pallina" alt="problem image" src="ball_was-in-the-game.png">
+ </div>
+ <p id="out2"></p>
+  
+ <script>
+
+    function getRandomPosition() {
+      const x = Math.floor(Math.random() * 300) + 20;
+      const y = Math.floor(Math.random() * 300) + 20;
+      return { x, y };
+    }
+
+    const movingImage = document.getElementById('pallina');
+    const targetImage = document.getElementById('tre');
+    let score = 0;
+
+    function updateScore() {
+      score=3+score;
+      document.getElementById("punteggio").innerHTML = score;
+    }
+
+    function updateTargetPosition() {
+      const newPosition = getRandomPosition();
+      targetImage.style.left = `${newPosition.x}px`;
+      targetImage.style.top = `${newPosition.y}px`;
+    }
+
+   function pulsante(direction) {
+      const step = 40; // Adjust the step size as needed
+      let currentLeft = parseInt(getComputedStyle(movingImage).left) || 0;
+      let currentTop = parseInt(getComputedStyle(movingImage).top) || 0;
+
+      switch (direction) {
+          case 'su':
+              movingImage.style.top = `${currentTop - step}px`;
+              break;
+          case 'giu':
+              movingImage.style.top = `${currentTop + step}px`;
+              break;
+          case 'destra':
+              movingImage.style.left = `${currentLeft - step}px`;
+              break;
+          case 'sinistra':
+              movingImage.style.left = `${currentLeft + step}px`;
+              break;
+          default:
+              break;
+      }
+
+
+    }
+
+    function tempo() {
+      // your original timer code here
+    }
+
+    let ntempo = 69;
+    let timingtime = setInterval(tempo, 100);
+//BHOH
+    function checkCollision() {
+      const rect1 = movingImage.getBoundingClientRect();
+      const rect2 = targetImage.getBoundingClientRect();
+      return rect1.left < rect2.right && rect2.left < rect1.right && rect1.top < rect2.bottom && rect2.top < rect1.bottom;
+    }
+//GAMEOVER
+    function updateGameState() {
+      if (ntempo <= 0) {
+        clearInterval(timingtime);
+        document.getElementById("campo-timer").style.display = "none";
+        document.getElementById("campo-punteggio").style.display = "none";
+        document.getElementById("tre").style.display = "none";
+        document.getElementById("comandi").style.display = "none";
+        document.getElementById("campo").style.display = "none";
+        document.getElementById("out2").innerHTML = "GAME OVER";
+        return;
+      }
+      if (checkCollision()) {
+        updateScore();
+        updateTargetPosition();
+      }
+      ntempo--;
+      document.getElementById("gametime").innerHTML = ntempo;
+    }
+
+    const timeinterval = setInterval(updateGameState, 100);
+
+    // call these functions once initially to set up the game
+    updateTargetPosition();
+    document.getElementById("gametime").innerHTML = ntempo;
+    document.getElementById("punteggio").innerHTML = score;
+   
+   /*quando l'id=tre si spostas deve cambiare anche il suo numero senza modificare tutto il mio codice
+
+ </script>
+
+</body>
+</html>
