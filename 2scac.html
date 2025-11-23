@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scacchiera Giocabile</title>
+  <style>
+    :root {
+      --panel: #1e120b;
+      --panel-border: rgba(255, 255, 255, 0.05);
+      --text: #f7f1ea;
+      --muted: #c7bdb3;
+      --accent: #ffe1a1;
+      --accent-strong: #f0c46d;
+      --board-light: #f4e2c8;
+      --board-dark: #b0682e;
+      --capture: rgba(255, 129, 94, 0.45);
+      --move: rgba(244, 226, 200, 0.32);
+      --frame-dark: #4b1f05;
+      --frame-light: #a15622;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(16px, 3vw, 40px);
+      background: radial-gradient(circle at top, #402315 0%, #1b0f07 55%, #0d0602 100%);
+      color: var(--text);
+    }
+
+    .app-shell {
+      width: min(1200px, 100%);
+      display: grid;
+      grid-template-columns: minmax(280px, 360px) minmax(320px, 1fr);
+      gap: clamp(1rem, 3vw, 2.5rem);
+      align-items: center;
+    }
+
+    .info-panel {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--panel-border);
+      border-radius: 20px;
+      padding: clamp(1.25rem, 2vw, 2rem);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(6px);
+    }
+
+    .info-panel h1 {
+      margin-top: 0;
+      margin-bottom: 0.35rem;
+      font-size: clamp(1.5rem, 2vw, 2.1rem);
+    }
+
+    .info-panel p {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .status-box {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--panel-border);
+      border-radius: 14px;
+      padding: 0.85rem 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    #turn-indicator {
+      font-weight: 600;
+    }
+
+    #message {
+      min-height: 1.2em;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    #reset-btn {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      padding: 0.9rem 1.4rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: linear-gradient(145deg, var(--accent), var(--accent-strong));
+      color: #6b3b15;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.35);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    #reset-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 35px rgba(0, 0, 0, 0.4);
+    }
+
+    #reset-btn:active {
+      transform: translateY(0);
+    }
+
+    .tips {
+      margin-top: 1.3rem;
+      padding-left: 1.1rem;
+      color: var(--muted);
+      line-height: 1.4;
+      font-size: 0.92rem;
+    }
+
+    .board-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(0.5rem, 2vw, 2rem);
+    }
+
+    .board {
+      width: min(92vw, 620px);
+      aspect-ratio: 1;
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      grid-template-rows: repeat(8, 1fr);
+      border-radius: 22px;
+      position: relative;
+      padding: clamp(14px, 2vw, 22px);
+      background: linear-gradient(135deg, var(--frame-light), var(--frame-dark));
+      box-shadow:
+        0 25px 60px rgba(0, 0, 0, 0.6),
+        inset 0 0 0 4px rgba(0, 0, 0, 0.35);
+    }
+
+    .board::after {
+      content: '';
+      position: absolute;
+      inset: clamp(12px, 1.6vw, 20px);
+      border-radius: 12px;
+      background: repeating-linear-gradient(
+          120deg,
+          rgba(255, 255, 255, 0.08) 0px,
+          rgba(255, 255, 255, 0.08) 10px,
+          rgba(0, 0, 0, 0.08) 10px,
+          rgba(0, 0, 0, 0.08) 20px
+        ),
+        linear-gradient(135deg, #d6904f, #8a4615);
+      z-index: 0;
+    }
+
+    .board > .square {
+      position: relative;
+      z-index: 1;
+    }
+
+    .square {
+      position: relative;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(1.9rem, 4vw, 3.4rem);
+      user-select: none;
+      transition: background 0.2s ease;
+    }
+
+    .square:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: -3px;
+    }
+
+    .square.light {
+      background: var(--board-light);
+      color: #5c2f0e;
+    }
+
+    .square.dark {
+      background: var(--board-dark);
+      color: #fde9d3;
+    }
+
+    .square .piece {
+      pointer-events: none;
+    }
+
+    .square .coord {
+      position: absolute;
+      font-size: 0.65rem;
+      color: rgba(0, 0, 0, 0.55);
+      font-weight: 600;
+      pointer-events: none;
+    }
+
+    .square.dark .coord {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .coord-rank {
+      top: 4px;
+      left: 6px;
+    }
+
+    .coord-file {
+      bottom: 4px;
+      right: 6px;
+    }
+
+    .square.selected {
+      box-shadow: inset 0 0 0 4px rgba(255, 225, 161, 0.8);
+    }
+
+    .square.legal::after,
+    .square.capture::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .square.legal:not(.capture)::after {
+      width: 32%;
+      height: 32%;
+      background: var(--move);
+    }
+
+    .square.capture::after {
+      width: 70%;
+      height: 70%;
+      border: 4px solid var(--capture);
+    }
+
+    @media (max-width: 900px) {
+      .app-shell {
+        grid-template-columns: 1fr;
+        justify-items: center;
+      }
+
+      .info-panel {
+        width: min(480px, 100%);
+      }
+
+      .board {
+        width: min(92vw, 480px);
+      }
+    }
+
+    @media (max-width: 520px) {
+      body {
+        padding: 16px 12px 32px;
+      }
+
+      .board {
+        padding: 12px;
+        border-radius: 18px;
+      }
+
+      .board::after {
+        border-radius: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app-shell">
+    <section class="info-panel">
+      <h1>Scacchiera giocabile</h1>
+      <p>
+        Tocca o clicca un pezzo per vedere le mosse legali. Le regole base (incluso lo scacco)
+        sono rispettate; promozioni automatiche a Donna. Niente arrocco o en passant per semplicit&agrave;.
+      </p>
+      <div class="status-box">
+        <span id="turn-indicator">Tocca al Bianco</span>
+        <span id="message" aria-live="polite"></span>
+      </div>
+      <button id="reset-btn" type="button">Nuova partita</button>
+      <ul class="tips">
+        <li>Le mosse valide sono evidenziate in azzurro.</li>
+        <li>Le catture compaiono come anelli rossi.</li>
+        <li>Quando un re &egrave; sotto scacco riceverai un avviso.</li>
+      </ul>
+    </section>
+    <section class="board-wrapper">
+      <div id="board" class="board" aria-label="Scacchiera"></div>
+    </section>
+  </main>
+
+  <script>
+    const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+    const initialFEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR';
+
+    const boardElement = document.getElementById('board');
+    const turnIndicator = document.getElementById('turn-indicator');
+    const messageElement = document.getElementById('message');
+    const resetBtn = document.getElementById('reset-btn');
+
+    const squareElements = new Map();
+
+    let boardState = [];
+    let currentTurn = 'w';
+    let selectedSquare = null;
+    let legalMoves = [];
+
+    const pieceIcons = {
+      w: { k: '♔', q: '♕', r: '♖', b: '♗', n: '♘', p: '♙' },
+      b: { k: '♚', q: '♛', r: '♜', b: '♝', n: '♞', p: '♟︎' }
+    };
+
+    const pieceLabels = { k: 'Re', q: 'Donna', r: 'Torre', b: 'Alfiere', n: 'Cavallo', p: 'Pedone' };
+
+    resetBtn.addEventListener('click', resetGame);
+
+    createBoardUI();
+    resetGame();
+
+    function createBoardUI() {
+      boardElement.innerHTML = '';
+      squareElements.clear();
+      for (let rank = 0; rank < 8; rank += 1) {
+        for (let file = 0; file < 8; file += 1) {
+          const squareName = coordsToSquare(file, rank);
+          const squareButton = document.createElement('button');
+          squareButton.type = 'button';
+          squareButton.className = `square ${(rank + file) % 2 === 0 ? 'light' : 'dark'}`;
+          squareButton.dataset.square = squareName;
+          squareButton.setAttribute('aria-label', `Casella ${squareName}`);
+          squareButton.addEventListener('click', () => handleSquareClick(squareName));
+
+          const pieceSpan = document.createElement('span');
+          pieceSpan.className = 'piece';
+          squareButton.appendChild(pieceSpan);
+
+          if (file === 0) {
+            const rankBadge = document.createElement('span');
+            rankBadge.className = 'coord coord-rank';
+            rankBadge.textContent = 8 - rank;
+            squareButton.appendChild(rankBadge);
+          }
+
+          if (rank === 7) {
+            const fileBadge = document.createElement('span');
+            fileBadge.className = 'coord coord-file';
+            fileBadge.textContent = files[file];
+            squareButton.appendChild(fileBadge);
+          }
+
+          boardElement.appendChild(squareButton);
+          squareElements.set(squareName, squareButton);
+        }
+      }
+    }
+
+    function resetGame() {
+      boardState = loadPositionFromFEN(initialFEN);
+      currentTurn = 'w';
+      selectedSquare = null;
+      legalMoves = [];
+      renderBoard();
+      updateTurnIndicator();
+      showMessage('Partita pronta: muovi un pezzo bianco per iniziare.');
+    }
+
+    function loadPositionFromFEN(fen) {
+      const rows = fen.split('/');
+      const board = Array.from({ length: 8 }, () => Array(8).fill(null));
+      rows.forEach((row, rankIndex) => {
+        let fileIndex = 0;
+        for (const char of row) {
+          const digit = parseInt(char, 10);
+          if (!Number.isNaN(digit)) {
+            fileIndex += digit;
+          } else {
+            const color = char === char.toUpperCase() ? 'w' : 'b';
+            const type = char.toLowerCase();
+            board[rankIndex][fileIndex] = { type, color };
+            fileIndex += 1;
+          }
+        }
+      });
+      return board;
+    }
+
+    function renderBoard() {
+      squareElements.forEach((element, square) => {
+        const pieceSpan = element.querySelector('.piece');
+        const piece = getPiece(square);
+        pieceSpan.textContent = piece ? pieceIcons[piece.color][piece.type] : '';
+      });
+      updateHighlights();
+    }
+
+    function handleSquareClick(square) {
+      const piece = getPiece(square);
+
+      if (selectedSquare && square === selectedSquare) {
+        clearSelection();
+        return;
+      }
+
+      if (selectedSquare && legalMoves.includes(square)) {
+        makeMove(selectedSquare, square);
+        return;
+      }
+
+      if (piece && piece.color === currentTurn) {
+        selectedSquare = square;
+        legalMoves = getLegalMoves(square);
+        if (!legalMoves.length) {
+          showMessage(`${describePiece(piece)} su ${square} non ha mosse legali.`);
+        }
+        updateHighlights();
+        return;
+      }
+
+      if (!piece) {
+        showMessage('Seleziona prima un pezzo del tuo colore.');
+      } else {
+        showMessage(`Tocca al ${colorLabel(currentTurn)}.`);
+      }
+    }
+
+    function makeMove(fromSquare, toSquare) {
+      const movingPiece = { ...getPiece(fromSquare) };
+      const capturedPiece = getPiece(toSquare);
+
+      setPiece(fromSquare, null);
+      const targetCoords = squareToCoords(toSquare);
+
+      if (movingPiece.type === 'p' && (targetCoords.rankIndex === 0 || targetCoords.rankIndex === 7)) {
+        movingPiece.type = 'q';
+        showMessage(`Promozione automatica: ${colorLabel(movingPiece.color)} ottiene una Donna.`);
+      }
+
+      setPiece(toSquare, movingPiece);
+
+      const captureSuffix = capturedPiece ? ' (cattura)' : '';
+      showMessage(`Mossa: ${describePiece(movingPiece)} da ${fromSquare} a ${toSquare}${captureSuffix}.`);
+
+      clearSelection();
+      renderBoard();
+
+      currentTurn = currentTurn === 'w' ? 'b' : 'w';
+      updateTurnIndicator();
+      evaluateBoardState();
+    }
+
+    function clearSelection() {
+      selectedSquare = null;
+      legalMoves = [];
+      updateHighlights();
+    }
+
+    function updateHighlights() {
+      squareElements.forEach((element) => {
+        element.classList.remove('selected', 'legal', 'capture');
+      });
+
+      if (!selectedSquare) {
+        return;
+      }
+
+      const selectedElement = squareElements.get(selectedSquare);
+      if (selectedElement) {
+        selectedElement.classList.add('selected');
+      }
+
+      legalMoves.forEach((move) => {
+        const targetElement = squareElements.get(move);
+        if (!targetElement) return;
+        targetElement.classList.add('legal');
+        const targetPiece = getPiece(move);
+        if (targetPiece) {
+          targetElement.classList.add('capture');
+        }
+      });
+    }
+
+    function updateTurnIndicator() {
+      turnIndicator.textContent = `Tocca al ${colorLabel(currentTurn)}`;
+    }
+
+    function evaluateBoardState() {
+      const inCheck = isKingInCheck(currentTurn, boardState);
+      const hasMoves = playerHasMoves(currentTurn);
+
+      if (inCheck && !hasMoves) {
+        showMessage(`Scacco matto! Vince il ${colorLabel(currentTurn === 'w' ? 'b' : 'w')}.`);
+        return;
+      }
+
+      if (!inCheck && !hasMoves) {
+        showMessage('Stallo: nessuna mossa legale disponibile.');
+        return;
+      }
+
+      if (inCheck) {
+        showMessage(`Scacco al ${colorLabel(currentTurn)}!`);
+      }
+    }
+
+    function playerHasMoves(color) {
+      for (let rank = 0; rank < 8; rank += 1) {
+        for (let file = 0; file < 8; file += 1) {
+          const piece = boardState[rank][file];
+          if (piece && piece.color === color) {
+            const square = coordsToSquare(file, rank);
+            if (getLegalMoves(square).length) {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    }
+
+    function getLegalMoves(square, board = boardState) {
+      const piece = getPiece(square, board);
+      if (!piece) {
+        return [];
+      }
+      const pseudoMoves = getMoves(square, piece, board);
+      return pseudoMoves.filter((targetSquare) => {
+        const simulatedBoard = simulateMove(board, square, targetSquare);
+        return !isKingInCheck(piece.color, simulatedBoard);
+      });
+    }
+
+    function getMoves(square, piece, board) {
+      switch (piece.type) {
+        case 'p':
+          return getPawnMoves(square, piece, board);
+        case 'n':
+          return getKnightMoves(square, piece, board);
+        case 'b':
+          return getSlidingMoves(square, piece, board, [
+            [1, 1],
+            [1, -1],
+            [-1, 1],
+            [-1, -1]
+          ]);
+        case 'r':
+          return getSlidingMoves(square, piece, board, [
+            [1, 0],
+            [-1, 0],
+            [0, 1],
+            [0, -1]
+          ]);
+        case 'q':
+          return getSlidingMoves(square, piece, board, [
+            [1, 0],
+            [-1, 0],
+            [0, 1],
+            [0, -1],
+            [1, 1],
+            [1, -1],
+            [-1, 1],
+            [-1, -1]
+          ]);
+        case 'k':
+          return getKingMoves(square, piece, board);
+        default:
+          return [];
+      }
+    }
+
+    function getPawnMoves(square, piece, board) {
+      const moves = [];
+      const { fileIndex, rankIndex } = squareToCoords(square);
+      const direction = piece.color === 'w' ? -1 : 1;
+      const startRank = piece.color === 'w' ? 6 : 1;
+      const oneStepRank = rankIndex + direction;
+
+      if (isInside(fileIndex, oneStepRank) && !board[oneStepRank][fileIndex]) {
+        moves.push(coordsToSquare(fileIndex, oneStepRank));
+        const twoStepRank = rankIndex + direction * 2;
+        if (rankIndex === startRank && !board[twoStepRank][fileIndex]) {
+          moves.push(coordsToSquare(fileIndex, twoStepRank));
+        }
+      }
+
+      [-1, 1].forEach((fileOffset) => {
+        const targetFile = fileIndex + fileOffset;
+        const targetRank = rankIndex + direction;
+        if (!isInside(targetFile, targetRank)) return;
+        const targetPiece = board[targetRank][targetFile];
+        if (targetPiece && targetPiece.color !== piece.color) {
+          moves.push(coordsToSquare(targetFile, targetRank));
+        }
+      });
+
+      return moves;
+    }
+
+    function getKnightMoves(square, piece, board) {
+      const moves = [];
+      const { fileIndex, rankIndex } = squareToCoords(square);
+      const offsets = [
+        [1, 2],
+        [2, 1],
+        [2, -1],
+        [1, -2],
+        [-1, -2],
+        [-2, -1],
+        [-2, 1],
+        [-1, 2]
+      ];
+
+      offsets.forEach(([df, dr]) => {
+        const targetFile = fileIndex + df;
+        const targetRank = rankIndex + dr;
+        if (!isInside(targetFile, targetRank)) return;
+        const targetPiece = board[targetRank][targetFile];
+        if (!targetPiece || targetPiece.color !== piece.color) {
+          moves.push(coordsToSquare(targetFile, targetRank));
+        }
+      });
+
+      return moves;
+    }
+
+    function getSlidingMoves(square, piece, board, directions) {
+      const moves = [];
+      const { fileIndex, rankIndex } = squareToCoords(square);
+
+      directions.forEach(([df, dr]) => {
+        let targetFile = fileIndex + df;
+        let targetRank = rankIndex + dr;
+        while (isInside(targetFile, targetRank)) {
+          const targetPiece = board[targetRank][targetFile];
+          if (!targetPiece) {
+            moves.push(coordsToSquare(targetFile, targetRank));
+          } else {
+            if (targetPiece.color !== piece.color) {
+              moves.push(coordsToSquare(targetFile, targetRank));
+            }
+            break;
+          }
+          targetFile += df;
+          targetRank += dr;
+        }
+      });
+
+      return moves;
+    }
+
+    function getKingMoves(square, piece, board) {
+      const moves = [];
+      const { fileIndex, rankIndex } = squareToCoords(square);
+
+      for (let df = -1; df <= 1; df += 1) {
+        for (let dr = -1; dr <= 1; dr += 1) {
+          if (df === 0 && dr === 0) continue;
+          const targetFile = fileIndex + df;
+          const targetRank = rankIndex + dr;
+          if (!isInside(targetFile, targetRank)) continue;
+          const targetPiece = board[targetRank][targetFile];
+          if (!targetPiece || targetPiece.color !== piece.color) {
+            moves.push(coordsToSquare(targetFile, targetRank));
+          }
+        }
+      }
+
+      return moves;
+    }
+
+    function getPiece(square, board = boardState) {
+      const { fileIndex, rankIndex } = squareToCoords(square);
+      return board[rankIndex][fileIndex];
+    }
+
+    function setPiece(square, piece, board = boardState) {
+      const { fileIndex, rankIndex } = squareToCoords(square);
+      board[rankIndex][fileIndex] = piece ? { ...piece } : null;
+    }
+
+    function coordsToSquare(fileIndex, rankIndex) {
+      return `${files[fileIndex]}${8 - rankIndex}`;
+    }
+
+    function squareToCoords(square) {
+      const fileIndex = files.indexOf(square[0]);
+      const rankIndex = 8 - parseInt(square[1], 10);
+      return { fileIndex, rankIndex };
+    }
+
+    function isInside(fileIndex, rankIndex) {
+      return fileIndex >= 0 && fileIndex < 8 && rankIndex >= 0 && rankIndex < 8;
+    }
+
+    function cloneBoard(board) {
+      return board.map((row) => row.map((piece) => (piece ? { ...piece } : null)));
+    }
+
+    function simulateMove(board, fromSquare, toSquare) {
+      const newBoard = cloneBoard(board);
+      const movingPiece = { ...getPiece(fromSquare, newBoard) };
+      setPiece(fromSquare, null, newBoard);
+      const targetCoords = squareToCoords(toSquare);
+      if (movingPiece.type === 'p' && (targetCoords.rankIndex === 0 || targetCoords.rankIndex === 7)) {
+        movingPiece.type = 'q';
+      }
+      setPiece(toSquare, movingPiece, newBoard);
+      return newBoard;
+    }
+
+    function isKingInCheck(color, board) {
+      const kingSquare = findKingSquare(color, board);
+      if (!kingSquare) {
+        return false;
+      }
+      const opponent = color === 'w' ? 'b' : 'w';
+      return isSquareAttacked(board, kingSquare, opponent);
+    }
+
+    function findKingSquare(color, board) {
+      for (let rank = 0; rank < 8; rank += 1) {
+        for (let file = 0; file < 8; file += 1) {
+          const piece = board[rank][file];
+          if (piece && piece.color === color && piece.type === 'k') {
+            return coordsToSquare(file, rank);
+          }
+        }
+      }
+      return null;
+    }
+
+    function isSquareAttacked(board, square, byColor) {
+      for (let rank = 0; rank < 8; rank += 1) {
+        for (let file = 0; file < 8; file += 1) {
+          const piece = board[rank][file];
+          if (piece && piece.color === byColor) {
+            const fromSquare = coordsToSquare(file, rank);
+            const attackSquares = piece.type === 'p'
+              ? getPawnAttacks(fromSquare, piece)
+              : getMoves(fromSquare, piece, board);
+            if (attackSquares.includes(square)) {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    }
+
+    function getPawnAttacks(square, piece) {
+      const targets = [];
+      const { fileIndex, rankIndex } = squareToCoords(square);
+      const direction = piece.color === 'w' ? -1 : 1;
+      [-1, 1].forEach((offset) => {
+        const targetFile = fileIndex + offset;
+        const targetRank = rankIndex + direction;
+        if (isInside(targetFile, targetRank)) {
+          targets.push(coordsToSquare(targetFile, targetRank));
+        }
+      });
+      return targets;
+    }
+
+    function describePiece(piece) {
+      return `${colorLabel(piece.color)} ${pieceLabels[piece.type]}`;
+    }
+
+    function colorLabel(color) {
+      return color === 'w' ? 'Bianco' : 'Nero';
+    }
+
+    function showMessage(text) {
+      messageElement.textContent = text;
+    }
+  </script>
+</body>
+</html>
