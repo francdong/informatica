@@ -1,3 +1,10 @@
+<think>
+Prima, l'utente ha fornito un codice HTML che include un pulsante con del codice Arduino all'interno. Il pulsante contiene il codice per un progetto con sensore ad ultrasuoni, display LCD, LED e buzzer.
+
+
+## Examining User Input  
+- The user provided HTML code containing a button with embedded Arduino code.
+</think>```html
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -36,13 +43,23 @@
         .button:hover {
             background-color: #6B6C5E; 
         }
+        pre {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-width: 80%;
+            overflow-x: auto;
+        }
     </style>
 </head>
 <body>
 
     <h1>Codice :</h1> 
 
-    <button class="button">// 5ATele - Maxwell di Nichelino
+    <pre>// 5ATele - Maxwell di Nichelino
 // Data: 29/09/2025
 // progetto: SENSORE AD ULTRASUONI CON DISPLAY
 //DG
@@ -332,14 +349,9 @@ void loop ()
  
   delay(1000);  // Tempo di pausa prima di ripetere la melodiamelody
 }
-}
-
-
-
-
-
-</button>
+}</pre>
 
 
 </body>
 </html>
+```
