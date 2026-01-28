@@ -40,11 +40,306 @@
 </head>
 <body>
 
-    <h1>Porte Logiche</h1> 
+    <h1>Codice :</h1> 
 
-    <button class="button" onclick="window.location.href='https://www.datasheetbank.com/en/search-pdf/74HC08'">74HC08</button>
-    <button class="button" onclick="window.location.href='https://www.datasheetbank.com/en/search-pdf/74HC32'">74HC32</button>
-    <button class="button" onclick="window.location.href='https://www.datasheetbank.com/en/search-pdf/74HC14'">74HC14</button>
+    <button class="button">// 5ATele - Maxwell di Nichelino
+// Data: 29/09/2025
+// progetto: SENSORE AD ULTRASUONI CON DISPLAY
+//DG
+// === LIBRERIE  LCD ===
+
+// Per TINKERCAD, usa questa:
+//#include <Adafruit_LiquidCrystal.h>
+//Adafruit_LiquidCrystal lcd_1(32);
+
+// Per ARDUINO IDE, usa questa:
+ #include <LiquidCrystal_I2C.h>
+LiquidCrystal_I2C lcd_1(0x27, 16, 2);
+
+// --- Definizione dei pin ---
+#define buzzer         13
+#define Led_rosso      12
+#define Led_rosso_1_   11
+#define Led_giallo     10
+#define Led_giallo_1_  9
+#define Led_verde      8
+#define Led_verde_1_   7
+#define Led_blu        6
+#define Led_blu_1_     5
+#define Led_bianco     4
+#define Led_bianco_1_  3
+#define trigPin      A1 // Pin collegato a TRIG
+#define echoPin      A0 //  Pin collegato a ECHO
+//=== CANZONE ===
+
+
+// Definisco le note musicali ( Hz)
+#define NOTE_C4  262
+#define NOTE_D4  294
+#define NOTE_E4  330
+#define NOTE_F4  349
+#define NOTE_G4  392
+#define NOTE_A4  440
+#define NOTE_B4  494
+#define NOTE_C5  523
+#define NOTE_D5  587
+#define NOTE_REST 0  // Reset
+//Ordino la melodia scelta
+int melody[ ] = {
+  
+  NOTE_E4, NOTE_G4, NOTE_A4, NOTE_B4, NOTE_C5, NOTE_B4, NOTE_A4, NOTE_G4,
+  NOTE_E4, NOTE_G4, NOTE_A4, NOTE_B4, NOTE_C5, NOTE_B4, NOTE_A4, NOTE_G4,
+  // piccola variazione della ripetizione
+  NOTE_E4, NOTE_A4, NOTE_B4, NOTE_C5, NOTE_B4, NOTE_A4, NOTE_G4, NOTE_F4,
+  NOTE_E4, NOTE_G4, NOTE_A4, NOTE_B4, NOTE_C5, NOTE_B4, NOTE_A4, NOTE_G4,
+  // Ripetizione
+  NOTE_E4, NOTE_G4, NOTE_A4, NOTE_B4, NOTE_C5, NOTE_B4, NOTE_A4, NOTE_G4,
+  NOTE_REST  // Una pausa del reset prima del ritornello (loop)
+};
+
+int noteDurations[] = {
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 8, 8, 8, 8, 8,
+  1  // Reset
+};
+
+//=== VARIABILI ===
+long durata;
+int distanza;
+
+// === Tempi di pausa ===
+const int Delay1 = 500;
+const int Delay2 = 1000;
+const int Delay3 = 2000;
+
+
+
+void setup()  
+{
+// INIZIALIZZAZIONE DEL DISPLAY
+   lcd_1.init();            // DA USARE SU ARDUINO IDE
+   lcd_1.begin(16,2);
+   lcd_1.setBacklight(1);
+   Serial.begin (9600);      // Attiva il monitor seriale
+ 
+   lcd_1.setCursor (3,0);
+   lcd_1.print("LEGGIAMO");
+   lcd_1.setCursor (2,1);
+   lcd_1.print("LA DISTANZA");
+   delay(Delay2);
+   lcd_1.clear();            // Clear LCD    
+ 
+  pinMode(trigPin, OUTPUT);  // TRIG come uscita
+  pinMode(echoPin, INPUT);   // ECHO come ingresso
+  pinMode(buzzer, OUTPUT);
+  pinMode(Led_giallo, OUTPUT);
+  pinMode(Led_giallo_1_, OUTPUT);
+  pinMode(Led_rosso, OUTPUT);
+  pinMode(Led_rosso_1_, OUTPUT);
+  pinMode(Led_blu, OUTPUT);
+  pinMode(Led_blu_1_, OUTPUT);
+  pinMode(Led_verde, OUTPUT);
+  pinMode(Led_verde_1_, OUTPUT);
+  pinMode(Led_bianco, OUTPUT);
+  pinMode(Led_bianco_1_, OUTPUT);
+
+   
+}
+
+void loop ()
+{    
+
+ 
+
+ digitalWrite (trigPin, LOW); // Invia impulso ultrasonico
+ delayMicroseconds(10);
+ digitalWrite (trigPin, HIGH);
+ delayMicroseconds(10);
+ digitalWrite (trigPin, LOW);
+
+  // Rileva il tempo in cui ci ha messo il segnale a tornare indietro
+ long tempo = pulseIn(echoPin, HIGH);
+ 
+ // Calcola la distanza in cm
+ // Velocita del suono è 343,8 m/s
+ float distanza = 0.03438 * tempo/2;
+
+ // Mostra il risultato sul serial monitor  
+ Serial.print("Distanza: ");
+ Serial.print(distanza);
+ Serial.println("cm");
+ 
+   // Mezzo secondo tra le letture
+ // Mostra il risultato sul display  
+ lcd_1.setCursor (1,0);
+ lcd_1.print("LA DISTANZA E'");
+ lcd_1.setCursor (4,1);
+ lcd_1.print(distanza);
+ Serial.println("cm");
+ 
+  delay(Delay2);
+ 
+   if (distanza  >= 91)
+  {
+    digitalWrite(Led_rosso,HIGH);
+    digitalWrite(Led_rosso_1_, HIGH);
+    digitalWrite(Led_giallo, HIGH);
+    digitalWrite(Led_giallo_1_,HIGH);
+    digitalWrite(Led_blu, HIGH);
+    digitalWrite(Led_blu_1_, HIGH);
+    digitalWrite(Led_verde, HIGH);
+    digitalWrite(Led_verde_1_, HIGH);
+    digitalWrite(Led_bianco_1_, HIGH);
+    digitalWrite(Led_bianco, HIGH);
+    digitalWrite(buzzer, LOW);
+  }
+ 
+  if (distanza  < 91)
+  {
+    digitalWrite(Led_rosso,HIGH);
+    digitalWrite(Led_rosso_1_, HIGH);
+    digitalWrite(Led_giallo, HIGH);
+    digitalWrite(Led_giallo_1_,HIGH);
+    digitalWrite(Led_blu, HIGH);
+    digitalWrite(Led_blu_1_, HIGH);
+    digitalWrite(Led_verde, HIGH);
+    digitalWrite(Led_verde_1_, HIGH);
+    digitalWrite(Led_bianco_1_, HIGH);
+    digitalWrite(Led_bianco, LOW);
+    digitalWrite(buzzer, LOW);
+  }
+ 
+    if (distanza < 50  )
+    {
+    digitalWrite(Led_rosso, HIGH);
+    digitalWrite(Led_rosso_1_, HIGH);
+    digitalWrite(Led_giallo,HIGH);
+    digitalWrite(Led_giallo_1_, HIGH);
+    digitalWrite(Led_blu, HIGH);
+    digitalWrite(Led_blu_1_, HIGH);
+    digitalWrite(Led_verde, HIGH);
+    digitalWrite(Led_verde_1_, HIGH);
+    digitalWrite(Led_bianco_1_, HIGH);
+    digitalWrite(Led_bianco, HIGH);
+    digitalWrite(buzzer, LOW);
+  }  
+ 
+   if (distanza < 40 )
+  {
+    digitalWrite(Led_rosso, HIGH);
+    digitalWrite(Led_rosso_1_, HIGH);
+    digitalWrite(Led_giallo,HIGH);
+    digitalWrite(Led_giallo_1_, HIGH);
+    digitalWrite(Led_blu, HIGH);
+    digitalWrite(Led_blu_1_, HIGH);
+    digitalWrite(Led_verde, LOW);
+    digitalWrite(Led_verde_1_, LOW);
+    digitalWrite(Led_bianco, LOW);
+    digitalWrite(Led_bianco_1_, LOW);
+    digitalWrite(buzzer, LOW);
+  }
+   if (distanza < 30 )
+  {
+    digitalWrite(Led_rosso, HIGH);
+    digitalWrite(Led_rosso_1_, HIGH);
+    digitalWrite(Led_giallo,HIGH);
+    digitalWrite(Led_giallo_1_, HIGH);
+    digitalWrite(Led_blu, HIGH);
+    digitalWrite(Led_blu_1_, LOW);
+    digitalWrite(Led_verde, LOW);
+    digitalWrite(Led_verde_1_, LOW);
+    digitalWrite(Led_bianco, LOW);
+    digitalWrite(Led_bianco_1_, LOW);
+    digitalWrite(buzzer, LOW);
+  }
+ 
+   if (distanza < 20)
+  {
+    digitalWrite(Led_rosso, HIGH);
+    digitalWrite(Led_rosso_1_, HIGH);
+    digitalWrite(Led_giallo,HIGH);
+    digitalWrite(Led_giallo_1_, HIGH);
+    digitalWrite(Led_blu, LOW);
+    digitalWrite(Led_blu_1_, LOW);
+    digitalWrite(Led_verde, LOW);
+    digitalWrite(Led_verde_1_, LOW);
+    digitalWrite(Led_bianco, LOW);
+    digitalWrite(Led_bianco_1_, LOW);
+    digitalWrite(buzzer, LOW);
+  }
+ 
+ 
+ 
+  if (distanza < 15  )
+  {
+    digitalWrite(Led_rosso, HIGH);
+    digitalWrite(Led_rosso_1_, HIGH);
+    digitalWrite(Led_giallo,HIGH);
+    digitalWrite(Led_giallo_1_,LOW);
+    digitalWrite(Led_blu, LOW);
+    digitalWrite(Led_blu_1_, LOW);
+    digitalWrite(Led_verde, LOW);
+    digitalWrite(Led_verde_1_, LOW);
+    digitalWrite(Led_bianco, LOW);
+    digitalWrite(Led_bianco_1_, LOW);
+    digitalWrite(buzzer, LOW);
+ 
+  }
+   if (distanza < 7)
+  {
+   digitalWrite(Led_rosso, HIGH);
+    digitalWrite(Led_rosso_1_, HIGH);
+    digitalWrite(Led_giallo,LOW);
+    digitalWrite(Led_giallo_1_,LOW);
+    digitalWrite(Led_blu, LOW);
+    digitalWrite(Led_blu_1_, LOW);
+    digitalWrite(Led_verde, LOW);
+    digitalWrite(Led_verde_1_, LOW);
+    digitalWrite(Led_bianco, LOW);
+    digitalWrite(Led_bianco_1_, LOW);
+    digitalWrite(buzzer, LOW);
+  }
+ 
+  if (distanza < 4  )
+  {
+    digitalWrite(Led_rosso, HIGH);
+    digitalWrite(Led_rosso_1_, LOW);
+    digitalWrite(Led_giallo, LOW);
+    digitalWrite(Led_giallo_1_, LOW);
+    digitalWrite(Led_blu, LOW);
+    digitalWrite(Led_blu_1_, LOW);
+    digitalWrite(Led_verde, LOW);
+    digitalWrite(Led_verde_1_, LOW);
+    digitalWrite(Led_bianco, LOW);
+    digitalWrite(Led_bianco_1_, LOW);
+    digitalWrite(buzzer, HIGH);
+      tone(buzzer, 5000, 100);
+
+       int tempo = 120;  // inizio della melodia
+  int noteCount = sizeof(melody) / sizeof(melody[0]);
+ 
+  for (int i = 0; i < noteCount; i++) {
+    // Calcolo della durata in millisecondi
+    float noteLength = (60.0 / tempo) * 1000 / noteDurations[i];      int noteDuration = (int)noteLength;
+   
+    if (melody[i] != NOTE_REST) {
+      tone(buzzer, melody[i], noteDuration * 0.9);      }
+    delay(noteDuration);  // Tempo di pausa    noTone(buzzer);  // la melodia si Ferma
+  }
+ 
+  delay(1000);  // Tempo di pausa prima di ripetere la melodiamelody
+}
+}
+
+
+
+
+
+</button>
+
 
 </body>
 </html>
