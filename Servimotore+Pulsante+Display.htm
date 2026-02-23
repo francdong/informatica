@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -14,7 +14,7 @@
             height: 100vh; 
             margin: 0; 
             background-color: #f0f0f0; 
-            background-image: url('https://img.freepik.com/foto-premium/sfondo-dell-aurora-boreale-celeste-che-danza-attraverso-il-cielo-notturno-per-il-telefono_964851-68479.jpg?w=360');
+            background-image: url('https://img.free');
             background-size: cover; 
             background-position: center; 
         }
@@ -63,13 +63,7 @@
 </head>
 <body>
 
-    <div class="youtube-div">
-        <label for="youtube-url">Inserisci URL YouTube:</label>
-        <input type="text" id="youtube-url" placeholder="https://www.youtube.com/watch?v=...">
-        <button class="button" onclick="loadVideo()">Guarda Video</button>
-        <div class="video-container" id="video-container"></div>
-    </div>
-
+   
     <h1>Codice :</h1> 
 
     <pre>// Lezione 15
@@ -192,24 +186,7 @@ SERVOMOTORE_2.write(90);				//Dice al servomotore di andare
 }
 </pre>
 
-    <script>
-        function loadVideo() {
-            const url = document.getElementById('youtube-url').value;
-            const videoId = getYouTubeVideoId(url);
-            if (videoId) {
-                const embedUrl = `https://www.youtube.com/embed/${videoId}`;
-                document.getElementById('video-container').innerHTML = `<iframe width="560" height="315" src="${embedUrl}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-            } else {
-                alert('URL YouTube non valido. Assicurati che sia nel formato corretto.');
-            }
-        }
-
-        function getYouTubeVideoId(url) {
-            const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
-            const match = url.match(regex);
-            return match ? match[1] : null;
-        }
-    </script>
+    
 
 </body>
 </html>
