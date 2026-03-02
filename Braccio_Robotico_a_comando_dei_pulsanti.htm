@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sketch_Braccio_Robotico_4_servi</title>
     
-    <!-- Prism.js per la colorazione sintattica -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     
     <style>
@@ -43,14 +42,12 @@
             overflow: hidden;
         }
 
-        /* Colori personalizzati per tema Arduino */
         code[class*="language-"],
         pre[class*="language-"] {
             color: #00ff00;
             background: none;
             font-family: 'Courier New', monospace;
             font-size: 13px;
-            text-shadow: none;
         }
 
         .token.comment { color: #6a9955; }
@@ -58,9 +55,6 @@
         .token.string { color: #ce9178; }
         .token.number { color: #b5cea8; }
         .token.function { color: #dcdcaa; }
-        .token.operator { color: #d4d4d4; }
-        .token.punctuation { color: #d4d4d4; }
-        .token.preprocessor { color: #c586c0; }
 
         .video-container {
             flex: 0 0 400px;
@@ -78,6 +72,14 @@
             border-radius: 5px;
         }
 
+        .video-error {
+            color: #ff6b6b;
+            text-align: center;
+            padding: 20px;
+            background: #2a2a2a;
+            border-radius: 8px;
+        }
+
         @media (max-width: 900px) {
             body {
                 flex-direction: column;
@@ -88,15 +90,11 @@
                 max-width: 400px;
                 order: -1;
             }
-            .code-container {
-                width: 100%;
-            }
         }
     </style>
 </head>
 <body>
 
-    <!-- SINISTRA: Codice Arduino colorato -->
     <div class="code-container">
         <h1>// Codice Braccio Robotico 4 Assi</h1> 
         <pre><code class="language-c">// Lezione 16
@@ -105,7 +103,7 @@
 // Data:02/02/2026
 // Progetto: Braccio Robotico a quattro assi 
 
-#include &lt;Servo.h&gt;        // Libreria Servo
+#include &lt;Servo.h&gt;
 
 #define PULS1     2
 #define PULS2     3
@@ -116,149 +114,78 @@
 #define PULS7     8
 #define PULS8     9
 
+Servo SERVOMOTORE_1;
+Servo SERVOMOTORE_2;
+Servo SERVOMOTORE_3;
+Servo SERVOMOTORE_4;
 
-
-Servo SERVOMOTORE_1 ;
-Servo SERVOMOTORE_2 ;
-Servo SERVOMOTORE_3 ;
-Servo SERVOMOTORE_4 ;
-
-
-
-// === VARIE DICHIARAZIONI ===
-int Segnale_Servo_1 = 11  ;	
-int Segnale_Servo_2 = 10  ;
-int Segnale_Servo_3 = 12  ;
-int Segnale_Servo_4 = 13  ;
-
-
-
-
+int Segnale_Servo_1 = 11;
+int Segnale_Servo_2 = 10;
+int Segnale_Servo_3 = 12;
+int Segnale_Servo_4 = 13;
 
 void setup()
 {
-  
-  SERVOMOTORE_1.attach(Segnale_Servo_1);		//Servo Servomotore1 al commando di Arduino
-  SERVOMOTORE_2.attach(Segnale_Servo_2);		//Servo Servomotore2 al commando di Arduino
-  SERVOMOTORE_3.attach(Segnale_Servo_3);		//Servo Servomotore3 al commando di Arduino
-  SERVOMOTORE_4.attach(Segnale_Servo_4);		//Servo Servomotore4 al commando di Arduino
+  SERVOMOTORE_1.attach(Segnale_Servo_1);
+  SERVOMOTORE_2.attach(Segnale_Servo_2);
+  SERVOMOTORE_3.attach(Segnale_Servo_3);
+  SERVOMOTORE_4.attach(Segnale_Servo_4);
 
-  pinMode(PULS1, INPUT);
-  pinMode(PULS2, INPUT);
-  pinMode(PULS3, INPUT);  
-  pinMode(PULS4, INPUT);  
-  pinMode(PULS5, INPUT);  
-  pinMode(PULS6, INPUT);  
-  pinMode(PULS7, INPUT);  
-  pinMode(PULS8, INPUT);  
+  for(int p=2; p<=9; p++) pinMode(p, INPUT);
 
-  SERVOMOTORE_1.write(90);           		// Posizione 90 gradi al centro
+  SERVOMOTORE_1.write(90);
   delay(1000);
-  SERVOMOTORE_2.write(90);           		// Posizione 90 gradi al centro
+  SERVOMOTORE_2.write(90);
   delay(1000);
-  SERVOMOTORE_3.write(90);           		// Posizione 90 gradi al centro
+  SERVOMOTORE_3.write(90);
   delay(1000);
-  SERVOMOTORE_4.write(90);           		// Posizione 90 gradi al centro
+  SERVOMOTORE_4.write(90);
   delay(1000);
 }
 
 void loop()
 {
-  
+  int V1=digitalRead(PULS1), V2=digitalRead(PULS2);
+  int V3=digitalRead(PULS3), V4=digitalRead(PULS4);
+  int V5=digitalRead(PULS5), V6=digitalRead(PULS6);
+  int V7=digitalRead(PULS7), V8=digitalRead(PULS8);
 
-int ValPULS1 = digitalRead(PULS1);     
-int ValPULS2 = digitalRead(PULS2);     
-int ValPULS3 = digitalRead(PULS3);     
-int ValPULS4 = digitalRead(PULS4);     
-int ValPULS5 = digitalRead(PULS5);     
-int ValPULS6 = digitalRead(PULS6);     
-int ValPULS7 = digitalRead(PULS7);     
-int ValPULS8 = digitalRead(PULS8);     
-
-  
-
-  
-  if (ValPULS1 == HIGH)   
-    {                     
-   SERVOMOTORE_1.write(0);     		
-   delay(1000);
-   }
-  
-  if (ValPULS2 == HIGH)   
-    {                     
-   SERVOMOTORE_1.write(180);     	
-   delay(1000);
-   }
-  
-  
-  
-  
-  
-  
-  if (ValPULS3 == HIGH)  
-    {                     
-   SERVOMOTORE_2.write(0);     		
-   delay(1000);
-   }
-  
-  if (ValPULS4 == HIGH)   
-    {                     
-   SERVOMOTORE_2.write(180);     	
-   delay(1000);
-   }
-  
-  
-  
-  
-  
-  
-  if (ValPULS5 == HIGH)  
-    {                     
-   SERVOMOTORE_3.write(0);     		
-   delay(1000);
-   }
-  
-  if (ValPULS6 == HIGH)   
-    {                     
-   SERVOMOTORE_3.write(180);     	
-   delay(1000);
-   }
-  
-  
-  
-  
-  
-  
-  if (ValPULS7 == HIGH)  
-    {                     
-   SERVOMOTORE_4.write(0);     		
-   delay(1000);
-   }
-  
-  if (ValPULS8 == HIGH)   
-    {                     
-   SERVOMOTORE_4.write(180);     	
-   delay(1000);
-   }
-  
-    
-     
-   
+  if(V1==HIGH){ SERVOMOTORE_1.write(0); delay(1000); }
+  if(V2==HIGH){ SERVOMOTORE_1.write(180); delay(1000); }
+  if(V3==HIGH){ SERVOMOTORE_2.write(0); delay(1000); }
+  if(V4==HIGH){ SERVOMOTORE_2.write(180); delay(1000); }
+  if(V5==HIGH){ SERVOMOTORE_3.write(0); delay(1000); }
+  if(V6==HIGH){ SERVOMOTORE_3.write(180); delay(1000); }
+  if(V7==HIGH){ SERVOMOTORE_4.write(0); delay(1000); }
+  if(V8==HIGH){ SERVOMOTORE_4.write(180); delay(1000); }
 }
 </code></pre>
     </div>
 
-    <!-- DESTRA: Video Instagram -->
+    <!-- Video con 3 metodi di fallback -->
     <div class="video-container">
-        <iframe 
-            src="https://www.instagram.com/reel/DVYDPxQDUlM/embed" 
-            allowfullscreen>
-        </iframe>
+        <!-- Metodo 1: Instagram diretto -->
+        <iframe id="ig-frame" src="https://www.instagram.com/reel/DVYDPxQDUlM/embed" allowfullscreen></iframe>
     </div>
 
-    <!-- Script Prism.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
-
+    
+    <script>
+    // Controlla se il video Instagram si carica, altrimenti mostra messaggio
+    window.onload = function() {
+        setTimeout(function() {
+            var iframe = document.getElementById('ig-frame');
+            try {
+                // Prova a verificare se l'iframe ha contenuto
+                if(iframe.offsetHeight < 100) {
+                    console.log("Instagram bloccato - prova soluzioni alternative");
+                }
+            } catch(e) {
+                console.log("Errore caricamento Instagram");
+            }
+        }, 3000);
+    };
+    </script>
 </body>
 </html>
