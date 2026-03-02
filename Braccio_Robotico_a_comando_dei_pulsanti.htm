@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sketch_Servimotore+Pulsante+Display</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+            background-color: #f0f0f0; 
+            background-image: url('https://img.free');
+            background-size: cover; 
+            background-position: center; 
+        }
+        h1 {
+            color: white; 
+            text-align: center; 
+            margin-bottom: 20px; 
+        }
+        .button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #8B8C7A; 
+            color: white;
+            transition: background-color 0.3s; 
+        }
+        .button:hover {
+            background-color: #6B6C5E; 
+        }
+        pre {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-width: 80%;
+            overflow-x: auto;
+        }
+        .youtube-div {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .youtube-div input {
+            padding: 8px;
+            width: 300px;
+            margin-right: 10px;
+        }
+        .video-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+//iframe class="youtube" src="https://youtu.be/t6oUUXY-aSo?si=zy-uOubCJqM63qiN">
+
+   
+    <h1>Codice :</h1> 
+
+    <pre>// Lezione 16
+// 5_ATele - Maxwell di Nichelino
+// Dong Francesco
+// Data:02/02/2026
+// Progetto: Braccio Robotico a quattro assi 
+
+#include <Servo.h>        // Libreria Servo
+
+#define PULS1     2
+#define PULS2     3
+#define PULS3     4
+#define PULS4     5
+#define PULS5     6
+#define PULS6     7
+#define PULS7     8
+#define PULS8     9
+
+
+
+Servo SERVOMOTORE_1 ;
+Servo SERVOMOTORE_2 ;
+Servo SERVOMOTORE_3 ;
+Servo SERVOMOTORE_4 ;
+
+
+
+// === VARIE DICHIARAZIONI ===
+int Segnale_Servo_1 = 11  ;	
+int Segnale_Servo_2 = 10  ;
+int Segnale_Servo_3 = 12  ;
+int Segnale_Servo_4 = 13  ;
+
+
+
+
+
+void setup()
+{
+  
+  SERVOMOTORE_1.attach(Segnale_Servo_1);		//Servo Servomotore1 al commando di Arduino
+  SERVOMOTORE_2.attach(Segnale_Servo_2);		//Servo Servomotore2 al commando di Arduino
+  SERVOMOTORE_3.attach(Segnale_Servo_3);		//Servo Servomotore3 al commando di Arduino
+  SERVOMOTORE_4.attach(Segnale_Servo_4);		//Servo Servomotore4 al commando di Arduino
+
+  pinMode(PULS1, INPUT);
+  pinMode(PULS2, INPUT);
+  pinMode(PULS3, INPUT);  
+  pinMode(PULS4, INPUT);  
+  pinMode(PULS5, INPUT);  
+  pinMode(PULS6, INPUT);  
+  pinMode(PULS7, INPUT);  
+  pinMode(PULS8, INPUT);  
+
+  SERVOMOTORE_1.write(90);           		// Posizione 90 gradi al centro
+  delay(1000);
+  SERVOMOTORE_2.write(90);           		// Posizione 90 gradi al centro
+  delay(1000);
+  SERVOMOTORE_3.write(90);           		// Posizione 90 gradi al centro
+  delay(1000);
+  SERVOMOTORE_4.write(90);           		// Posizione 90 gradi al centro
+  delay(1000);
+}
+
+void loop()
+{
+  
+
+int ValPULS1 = digitalRead(PULS1);     // Dichiariamo una Variabile di tipo INTERO 
+                                       // Arduino legge lo stato del Pulsante 1
+int ValPULS2 = digitalRead(PULS2);     // Dichiariamo una Variabile di tipo INTERO
+  									   // Arduino legge lo stato del Pulsante 2
+int ValPULS3 = digitalRead(PULS3);     // Dichiariamo una Variabile di tipo INTERO 
+                                       // Arduino legge lo stato del Pulsante 3
+int ValPULS4 = digitalRead(PULS4);     // Dichiariamo una Variabile di tipo INTERO
+  									   // Arduino legge lo stato del Pulsante 4
+int ValPULS5 = digitalRead(PULS5);     // Dichiariamo una Variabile di tipo INTERO 
+                                       // Arduino legge lo stato del Pulsante 5
+int ValPULS6 = digitalRead(PULS6);     // Dichiariamo una Variabile di tipo INTERO
+  									   // Arduino legge lo stato del Pulsante 6
+int ValPULS7 = digitalRead(PULS7);     // Dichiariamo una Variabile di tipo INTERO 
+                                       // Arduino legge lo stato del Pulsante 7
+int ValPULS8 = digitalRead(PULS8);     // Dichiariamo una Variabile di tipo INTERO
+  									   // Arduino legge lo stato del Pulsante 8
+
+    
+
+  
+  if (ValPULS1 == HIGH)   // se il valore del Pulsante 1
+    {                     // è Alto, Arduino esegue
+                          // L'istruzione di seguito
+     
+   SERVOMOTORE_1.write(0);     		//Dice al servomotore di andare 
+                        			//alla posizione 0 gradi
+                       				//tutto a Destra, di solito
+   delay(1000);
+   
+   }
+  
+  if (ValPULS2 == HIGH)   // se il valore del Pulsante 2
+    {                     // è Alto, Arduino esegue
+                          // L'istruzione di seguito
+     
+   SERVOMOTORE_1.write(180);     	//Dice al servomotore di andare 
+                        			//alla posizione 180 gradi
+                       				//tutto a Sinistra, di solito
+   delay(1000);
+   
+   }
+  
+  
+  
+  
+  
+  
+  if (ValPULS3 == HIGH)  // se il valore del Pulsante 3
+    {                     // è Alto, Arduino esegue
+                          // L'istruzione di seguito
+     
+   SERVOMOTORE_2.write(0);     		//Dice al servomotore di andare 
+                        			//alla posizione 0 gradi
+                       				//tutto a Destra, di solito
+   delay(1000);
+   
+   }
+  
+  if (ValPULS4 == HIGH)   // se il valore del Pulsante 4
+    {                     // è Alto, Arduino esegue
+                          // L'istruzione di seguito
+     
+   SERVOMOTORE_2.write(180);     	//Dice al servomotore di andare 
+                        			//alla posizione 180 gradi
+                       				//tutto a Sinistra, di solito
+   delay(1000);
+   
+   }
+  
+  
+  
+  
+  
+  
+  if (ValPULS5 == HIGH)  // se il valore del Pulsante 5
+    {                     // è Alto, Arduino esegue
+                          // L'istruzione di seguito
+     
+   SERVOMOTORE_3.write(0);     		//Dice al servomotore di andare 
+                        			//alla posizione 0 gradi
+                       				//tutto a Destra, di solito
+   delay(1000);
+   
+   }
+  
+  if (ValPULS6 == HIGH)   // se il valore del Pulsante 6
+    {                     // è Alto, Arduino esegue
+                          // L'istruzione di seguito
+     
+   SERVOMOTORE_3.write(180);     	//Dice al servomotore di andare 
+                        			//alla posizione 180 gradi
+                       				//tutto a Sinistra, di solito
+   delay(1000);
+   
+   }
+  
+  
+  
+  
+  
+  
+  if (ValPULS7 == HIGH)  // se il valore del Pulsante 7
+    {                     // è Alto, Arduino esegue
+                          // L'istruzione di seguito
+     
+   SERVOMOTORE_4.write(0);     		//Dice al servomotore di andare 
+                        			//alla posizione 0 gradi
+                       				//tutto a Destra, di solito
+   delay(1000);
+   
+   }
+  
+  if (ValPULS8 == HIGH)   // se il valore del Pulsante 8
+    {                     // è Alto, Arduino esegue
+                          // L'istruzione di seguito
+     
+   SERVOMOTORE_4.write(180);     	//Dice al servomotore di andare 
+                        			//alla posizione 180 gradi
+                       				//tutto a Sinistra, di solito
+   delay(1000);
+   
+   }
+  
+    
+     
+   
+}
+</pre>
+
+    
+
+</body>
+</html>
+```
